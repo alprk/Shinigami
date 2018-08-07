@@ -11,6 +11,8 @@ namespace App\Controller;
 
 use App\Card\CardManager;
 use App\Card\CardRequest;
+use App\Center\CenterManager;
+use App\Center\CenterRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
 use App\Form\EmployeeType;
@@ -55,6 +57,20 @@ class EmployeeController extends Controller
         $card = new CardRequest();
 
         $card = $cardManager->createcard($card);
+
+        return $this->redirectToRoute('index');
+    }
+
+
+    /**
+     * Inscription d'un Utilisateur
+     * @Route("/testcenter", name="test_center",methods={"GET", "POST"})
+     */
+    public function testcenter(CenterManager $centerManager)
+    {
+        $center = new CenterRequest();
+
+        $card = $centerManager->createcenter($center);
 
         return $this->redirectToRoute('index');
     }
