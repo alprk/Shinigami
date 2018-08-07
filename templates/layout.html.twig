@@ -1,0 +1,79 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ asset('img/laser.ico') }}" rel="icon">
+
+    <link href="{{ asset('img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="{{ asset('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+
+    <header id="header">
+        <div class="container">
+
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <!-- ICI Gérer la classe avec menu active pour afficher le bon onglet ! -->
+                    <li><a href="{{ path('index') }}">Accueil</a></li>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li><a href="{{ path('security_logout') }}" class="btn-get-started">Déconnexion</a></li>
+                    {% else %}
+
+                        <li><a href="{{ path('security_login') }}">Se connecter</a></li>
+                        <li><a href="{{ path('customer_register') }}">S'inscrire</a></li>
+
+                    {% endif %}
+
+
+
+
+
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </header><!-- #header -->
+
+    <section id="hero">
+        <div class="hero-container">
+            {% block content '' %}
+          <!--  <a href="#about" class="btn-get-started">Get Started</a> -->
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- JavaScript Libraries -->
+    <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('lib/jquery/jquery-migrate.min.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
+
+    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ asset('lib/superfish/hoverIntent.js') }}"></script>
+    <script src="{{ asset('lib/superfish/superfish.min.js') }}"></script>
+
+    <!-- Contact Form JavaScript File -->
+    <script src="{{ asset('contactform/contactform.js') }}"></script>
+
+    <!-- Template Main Javascript File -->
+    <script src="{{ asset('js/main.js') }}"></script>
+{% endblock %}
+

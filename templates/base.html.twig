@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome! to Shinigami APP{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
-            <h1>Bienvenue sur le site des Shinigami Laser</h1>
+<!doctype html>
+<!--
+LASERGAME PROJECT §§§!!§§§
+-->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {% block title %}
+            {% block page_title '' %} |
+            {% block site_title 'Lasergame Website' %}
         {% endblock %}
-        {% block javascripts %}
-
-        {% endblock %}
-    </body>
+    </title>
+    {% block stylesheets '' %}
+</head>
+<body>
+{% block body '' %}
+{% block javascripts '' %}
+</body>
 </html>

@@ -1,0 +1,28 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Accueil
+{% endblock %}
+
+{% block content %}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <h1>Bienvenue sur le site du laser game {{ app.user.username }}</h1>
+
+        <hr>
+
+    {% else %}
+        {% if success is defined %}
+            <p style="color:gold;">{{ success }}</p>
+        {% endif %}
+
+        <a href="{{path('security_login')}}">
+            Veuillez vous connecter
+        </a>
+        ou
+        <a href="{{path('user_register')}}">Vous inscrire</a>
+    {%  endif %}
+
+
+{% endblock %}
