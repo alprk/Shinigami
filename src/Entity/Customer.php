@@ -61,11 +61,6 @@ class Customer extends User
      * @param UserPasswordEncoderInterface $encoder
      */
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }
-
     public function getId()
     {
         return $this->id;
