@@ -1,0 +1,48 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Etudiant0
+ * Date: 07/08/2018
+ * Time: 14:22
+ */
+
+namespace App\Customer;
+
+
+use App\Entity\Customer;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+class CustomerFactory
+{
+    private $encoder;
+
+    /**
+     * CustomerFactory constructor.
+     * @param $encoder
+     */
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
+    public function createFromCustomerRequest(CustomerRequest $request): Customer
+    {
+        $customer = new Customer();
+
+        $customer->setUsername($request->getUsername());
+        $customer->setPassword($this->encoder->encodePassword($customer, $request->getPassword()));
+        $customer->setEmail($request->getEmail());
+        $customer->setAdress($request->getAdress());
+        $customer->setNickname($request->getNickname());
+        $customer->setBirthdate($request->getBirthdate());
+        $customer->setPhone($request->getPhone());
+        $customer->setCenter($request->getCenter());
+        $customer->setRoles(['ROLE_USER']);
+
+        return $customer;
+    }
+
+
+
+
+}
