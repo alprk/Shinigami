@@ -16,6 +16,8 @@ use App\Center\CenterRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
 use App\Form\EmployeeType;
+use App\Score\ScoreManager;
+use App\Score\ScoreRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,6 +73,19 @@ class EmployeeController extends Controller
         $center = new CenterRequest();
 
         $card = $centerManager->createcenter($center);
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * Inscription d'un Score
+     * @Route("/testscore", name="test_score", methods={"GET", "POST"})
+     */
+    public function testscore(ScoreManager $scoreManager)
+    {
+        $scoreRequest = new ScoreRequest();
+
+        $score = $scoreManager->createScore($scoreRequest);
 
         return $this->redirectToRoute('index');
     }
