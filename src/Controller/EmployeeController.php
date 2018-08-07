@@ -9,6 +9,8 @@
 namespace App\Controller;
 
 
+use App\Card\CardManager;
+use App\Card\CardRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
 use App\Form\EmployeeType;
@@ -42,6 +44,19 @@ class EmployeeController extends Controller
         return $this->render('pol.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * Inscription d'un Utilisateur
+     * @Route("/testcard", name="test_card",methods={"GET", "POST"})
+     */
+    public function testcard(CardManager $cardManager)
+    {
+        $card = new CardRequest();
+
+        $card = $cardManager->createcard($card);
+
+        return $this->redirectToRoute('index');
     }
 
 }
