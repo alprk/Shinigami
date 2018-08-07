@@ -23,6 +23,12 @@ class Employee extends User
      */
     private $center;
 
+    /**
+     * Employee constructor.
+     * @param $id
+     * @param $center
+     */
+
 
     public function getId()
     {
@@ -40,4 +46,6 @@ class Employee extends User
 
         return $this;
     }
+
+
 }
