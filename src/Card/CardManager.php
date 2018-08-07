@@ -20,14 +20,14 @@ class CardManager
     public function __construct(ObjectManager $manager, CardFactory $cardFactory)
     {
         $this->manager = $manager;
-        $this->CardFactory = $cardFactory;
+        $this->cardFactory = $cardFactory;
 
     }
 
     public function createcard(CardRequest $cardRequest): Card
     {
         # On appel notre Factory pour créer notre Objet Card
-        $card = $this->CardFactory->createFromCardRequest($cardRequest);
+        $card = $this->cardFactory->createFromCardRequest($cardRequest);
 
         # On sauvegarde en BDD notre User
         $this->manager->persist($card);
