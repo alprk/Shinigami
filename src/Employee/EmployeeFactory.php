@@ -35,6 +35,22 @@ class EmployeeFactory
         $employee->setRoles(['ROLE_EMPLOYEE']);
 
         return $employee;
+
     }
+
+    public function updatefromemployeerequest(EmployeeRequest $employeeRequest, Employee $employee)
+    {
+        $employee->setUsername($employeeRequest->getUsername());
+        $employee->setEmail($employeeRequest->getEmail());
+        $employee->setCenter($employeeRequest->getCenter());
+
+        if ($employeeRequest->getPassword() !== null)
+        {
+            $employee->setPassword($this->encoder->encodePassword($employee, $employeeRequest->getPassword()));
+        }
+
+        return $employee;
+    }
+
 
 }

@@ -30,6 +30,7 @@
                     <!-- ICI Gérer la classe avec menu active pour afficher le bon onglet ! -->
                     <li><a href="{{ path('index') }}">Accueil</a></li>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li><a href="{{ path('customer_modify_info') }}" class="btn-get-started">Éditer mes informations</a></li>
                         <li><a href="{{ path('security_logout') }}" class="btn-get-started">Déconnexion</a></li>
                     {% else %}
 

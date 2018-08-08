@@ -142,23 +142,29 @@ class CustomerType extends AbstractType
 
                 ]
 
-            ])
-
-
-            ->add('password',PasswordType::class,[
-                'label'=>"Password",
-                'required'=>true,
             ]);
 
+
+
             if ($this->etat) {
+
                 $builder->
-                add('submit', SubmitType::class, [
+                    add('password',PasswordType::class,[
+                        'label'=>"Password",
+                        'required'=>false,
+                    ])
+                    ->add('submit', SubmitType::class, [
                     'label' => 'Modifier mes Informations Personnelles']);
             }
             else
             {
                 $builder->
-                add('submit', SubmitType::class, [
+                add('password',PasswordType::class,[
+                    'label'=>"Password",
+                    'required'=>true,
+                ])
+
+                ->add('submit', SubmitType::class, [
                     'label' => 'S\'inscrire']);
             }
 

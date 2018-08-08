@@ -18,6 +18,11 @@ body {
   font-weight: bold;
 }
 
+.form-group{
+  color: #2dca98;
+  font-weight: bold;
+}
+
 .col-form-label{
   color: #2dca98;
   font-weight: bold;

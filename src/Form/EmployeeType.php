@@ -30,6 +30,8 @@ class EmployeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
 
     {
+        $this->etat = $options['etat'];
+
         $builder
             ->add('username', TextType::class, [
 
@@ -41,15 +43,25 @@ class EmployeeType extends AbstractType
 
                 ]
 
-            ])
+            ]);
 
-
-            ->add('password',PasswordType::class,[
+        if ($this->etat) {
+            $builder->add('password',PasswordType::class,[
+                'label'=>"Password",
+                'required'=>false,
+            ]);
+        }
+        else
+        {
+            $builder->add('password',PasswordType::class,[
                 'label'=>"Password",
                 'required'=>true,
-            ])
+            ]);
+        }
 
-            ->add('email',EmailType::class,[
+
+
+            $builder->add('email',EmailType::class,[
                 'label'=>"Email",
                 'required'=>true,
             ])
@@ -65,13 +77,23 @@ class EmployeeType extends AbstractType
                 'multiple' => false,
                 'label' => 'Nom du centre',
 
-            ))
-            ->add('submit', SubmitType::class, [
+            ));
 
-                'label' => 'Créer l\'employe'
+        if ($this->etat) {
+            $builder->add('submit', SubmitType::class, [
+
+                'label' => 'Modifier ses infos'
 
             ]);
+        }
+        else
+        {
+            $builder->add('submit', SubmitType::class, [
 
+                'label' => 'Créer l\'employé'
+
+            ]);
+        }
 
     }
 
