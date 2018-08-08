@@ -15,10 +15,13 @@ class CardFactory
 {
     public function createFromCardRequest(CardRequest $cardRequest)
     {
+        $customer = $cardRequest->getCustomer();
+        $nickname = $cardRequest->getCustomerNickname();
+
         $card = new Card();
-        $card->setCustomer(null);
-        $card->setCardNumber('11111');
-        $card->setCustomerNickname('test');
+
+        $card->setCustomer($customer);
+        $card->setCustomerNickname($nickname);
 
         return $card;
     }
