@@ -15,7 +15,9 @@ use App\Center\CenterManager;
 use App\Center\CenterRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
+use App\Entity\Customer;
 use App\Form\EmployeeType;
+use App\Form\ModifyScore;
 use App\Score\ScoreManager;
 use App\Score\ScoreRequest;
 use Doctrine\ORM\EntityManagerInterface;
@@ -121,6 +123,100 @@ class EmployeeController extends Controller
         $score = $scoreManager->createScore($scoreRequest);
 
         return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/customer_management", name="customer_management", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_EMPLOYEE')")
+     */
+    public function customer_management()
+    {
+
+        return $this->render('customer_management.html.twig');
+    }
+
+
+
+
+    /**
+     * @Route("/employee_manage_score", name="employee_manage_score", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_EMPLOYEE')")
+     */
+    public function managescore(Request $request,ScoreManager $scoreManager)
+    {
+        $employee = $this->get('security.token_storage')->getToken()->getUser();
+
+            $options = [
+                'centerid' => $employee->getCenter()->getId()
+            ];
+
+
+        $form = $this->createForm(ModifyScore::class,null,$options);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+           $customer = $form->getData()['customer_id'];
+           $value =  $form->getData()['score'];
+           $card = $customer->getCard();
+
+           if ($card)
+           {
+               $scorerequest = new ScoreRequest();
+
+               $scoreManager->createScore($scorerequest,$card,$value);
+
+               return $this->render('customer_management.html.twig',
+                   [
+                       'form' => $form->createView(),
+                       'success' => 'Score correctement rajouté'
+                   ]);
+
+           }
+           else
+           {
+               return $this->render('customer_management.html.twig',
+                   [
+                       'form' => $form->createView(),
+                       'success' => 'Echec d\'ajout du score, le joueur n\'a pas encore rattaché de carte'
+                   ]);
+
+           }
+
+
+
+
+        }
+
+        return $this->render('employee_manage_score.html.twig',
+            [
+                'form' => $form->createView()
+            ]);
+
+
+    }
+
+
+
+    /**
+     * @Route("/employee_list_players", name="employee_list_players", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_EMPLOYEE')")
+     */
+    public function listPlayers(EntityManagerInterface $em)
+    {
+        $employee = $this->get('security.token_storage')->getToken()->getUser();
+
+        $centerId = $employee->getCenter();
+
+        $players = $em->getRepository(Customer::class)->findBy(
+            array('center' => $centerId)
+        );
+
+        return $this->render('list_players_employee.html.twig',
+            [
+                'players' => $players
+            ]);
     }
 
 }

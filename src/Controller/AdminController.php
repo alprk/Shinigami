@@ -213,7 +213,7 @@ class AdminController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
             $test = $form->getData();
-            dump($test);
+
 
             $nbCards = $test['number'];
             $center = $em->getRepository(Center::class)->find($test['center']);
