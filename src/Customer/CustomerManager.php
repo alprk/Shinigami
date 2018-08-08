@@ -68,7 +68,13 @@ class CustomerManager
         $customer = $this->customerFactory->updatefromcustomerrequest($customerRequest,$customer);
         $this->manager->persist($customer);
         $this->manager->flush();
-     }
+
+        return $customer;
+    }
+
+
+
+
 
     public function forgotPassword($username){
         $customer = $this->findCustomerOrEmployee($username);
