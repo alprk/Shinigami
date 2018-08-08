@@ -30,6 +30,36 @@
                     <!-- ICI Gérer la classe avec menu active pour afficher le bon onglet ! -->
                     <li><a href="{{ path('index') }}">Accueil</a></li>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                        <li class="menu-has-children"><a href="{{ path('admin_management') }}">Administration</a>
+                            <ul>
+                                <li class="menu-has-children"><a href="{{ path('admin_card_management') }}">Administration des cartes</a>
+                                    <ul>
+                                        <li><a href="">Ajouter une carte</a></li>
+                                        <li><a href="">Liste des cartes</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-has-children"><a href="{{ path('admin_employee_management') }}">Administration des employés</a>
+                                    <ul>
+                                        <li><a href="{{ path('admin_add_employee') }}">Ajouter un employé</a></li>
+                                        <li><a href="{{ path('admin_list_employee') }}">Liste des employés</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-has-children"><a href="{{ path('admin_center_management') }}">Administration des centres</a>
+                                    <ul>
+                                        <li><a href="">Ajouter un centre</a></li>
+                                        <li><a href="">Modifier un centre</a></li>
+                                        <li><a href="">Supprimer un centre</a></li>
+                                        <li><a href="">Lister les centres</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+
+
                         <li><a href="{{ path('customer_modify_info') }}" class="btn-get-started">Éditer mes informations</a></li>
                         <li><a href="{{ path('security_logout') }}" class="btn-get-started">Déconnexion</a></li>
                     {% else %}
