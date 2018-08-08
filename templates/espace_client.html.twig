@@ -17,7 +17,8 @@
 
 
 
-    <a href="">Rattacher une carte à son compte<br></a>
+
+    <a href="{{path('customer_attach_card')}}">Rattacher une carte à son compte<br></a>
 
     <a href="">Carte Perdue ?<br></a>
 
@@ -31,7 +32,10 @@
         Veuillez vous connecter
     </a>
     ou
+    <a href="{{path('user_register')}}">Vous inscrire</a>
+
     <a href="{{path('customer_register')}}">Vous inscrire</a>
+    
 {%  endif %}
 
 
