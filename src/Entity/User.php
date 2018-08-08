@@ -39,6 +39,16 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $expirationdate;
+
     public function getRoles()
     {
         return $this->roles;
@@ -112,10 +122,35 @@ class User implements UserInterface
         $this->email = $email;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
 
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token): void
+    {
+        $this->token = $token;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getExpirationdate()
+    {
+        return $this->expirationdate;
+    }
 
-
-
-
+    /**
+     * @param mixed $expirationdate
+     */
+    public function setExpirationdate($expirationdate): void
+    {
+        $this->expirationdate = $expirationdate;
+    }
 }

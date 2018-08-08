@@ -13,9 +13,12 @@
  */
 namespace App\Controller\Security;
 
+use App\Customer\CustomerManager;
 use App\Form\CustomerType;
 
+use App\Form\ForgotPassword;
 use App\Form\LoginType;
+use App\Form\ResetPassword;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -87,16 +90,68 @@ class SecurityController extends Controller
     {
 
     }
+
     /**
+     * Vous pourriez définir aussi ici ,
+     * votre logique, mot de passe oublié,
+     * réinitilaisation du mot de passe et
+     * Email de validation.
+     */
 
- * Vous pourriez définir aussi ici ,
+    /**
+     * @Route("/forgot_password", name="customer_forgot_password", methods={"GET", "POST"})
+     */
+    public function forgotPassword(Request $request, CustomerManager $manager)
+    {
+        $form = $this->createForm(ForgotPassword::class);
 
- * votre logique, mot de passe oublié,
+        $form->handleRequest($request);
 
- * réinitilaisation du mot de passe et
+        if ($form->isSubmitted() && $form->isValid()) {
+            $test = $form->getData();
+            $username = $test['username'];
 
- * Email de validation.
+            $manager->forgotPassword($username);
 
- */
+            return $this->render('index.html.twig', [
+                'success' => 'Un e-mail de réinitialisation de votre mot de passe vous a été envoyé!'
+            ]);
+        }
+
+        return $this->render('forgot_password.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/reset_password", name="customer_reset_password", methods={"GET", "POST"})
+     */
+    public function resetPassword(Request $request, CustomerManager $manager)
+    {
+        $form = $this->createForm(ResetPassword::class);
+        $form->handleRequest($request);
+        $token = $request->get('user');
+        if($token != null){
+            $customer = $manager->findByToken($token);
+            if(!$manager->checkExpirationDate($customer)){
+                throw $this->createNotFoundException();
+            }
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $test = $form->getData();
+            $newPassword = $test['password'];
+
+            $manager->resetPassword($customer, $newPassword);
+            return $this->render('index.html.twig', [
+                'success' => 'Votre mot de passe a bien été réinitialisé!'
+            ]);
+        }
+
+        return $this->render('reset_password.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
 
 }
