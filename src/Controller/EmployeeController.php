@@ -20,6 +20,7 @@ use App\Score\ScoreManager;
 use App\Score\ScoreRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,6 +49,29 @@ class EmployeeController extends Controller
         # Affichage du Formulaire dans la vue
         return $this->render('pol.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/employee_add_card", name="employee_add_card", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_EMPLOYEE')")
+     */
+    public function addCard(CardManager $cardManager)
+    {
+        $cardRequest = new CardRequest();
+
+        $employee = $this->getUser();
+
+        $centerCode = $employee->getCenter()->getCode();
+
+        $cardRequest->setCustomer(null);
+
+        $cardRequest->setCustomerNickname(null);
+
+        $card = $cardManager->createcard($cardRequest, $centerCode);
+
+        return $this->render('index.html.twig',[
+            'success' => 'Carte créée !'
         ]);
     }
 
