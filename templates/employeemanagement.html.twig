@@ -1,0 +1,19 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Manager les employés
+{% endblock %}
+
+{% block content %}
+
+{% if success is defined %}
+    <p style="color:gold;">{{ success }}</p>
+{% endif %}
+
+<h1>Bienvenue sur l'interface d'administration des employés</h1>
+
+<h3><a href="{{path('admin_add_employee')}}">Créer des Employés</a></h3>
+
+<h3><a href="{{path('admin_list_employee')}}">Voir la liste des Employés</a></h3>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Liste des employés
+{% endblock %}
+
+{% block content %}
+<h1>Liste des Employés</h1>
+
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Centre</th>
+    </tr>
+    {% for employee in employees %}
+        <tr>
+            <td>{{ employee.username }}</td>
+            <td>{{ employee.center.name }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
