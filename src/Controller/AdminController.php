@@ -194,10 +194,12 @@ class AdminController extends Controller
             $center = $centerManager->createcenter($center);
 
 
-            return $this->render('centermanagement.html.twig',[
-                'succes' => 'Votre centre à correctement été ajouté !'
+            return $this->render('centermanagement.html.twig', [
+                'succes' => 'Votre centre à correctement été ajouté !']);
+        }
+    }
 
-              /**
+    /**
      * @Route("/admin_add_card", name="admin_add_card", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      */
