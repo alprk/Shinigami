@@ -14,6 +14,7 @@ use App\Customer\CustomerRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
 use App\Entity\Employee;
+use App\Form\AttachCard;
 use App\Form\CustomerType;
 use App\Form\EmployeeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -111,6 +112,48 @@ class CustomerController extends Controller
                 'status' => 'MODIFICATION_INFO'
             ]);
 
+
+        }
+    }
+
+    /**
+     * @Route("/customer_attach_card", name="customer_attach_card", methods={"GET", "POST"})
+     */
+    public function attach_card(Request $request, CustomerManager $manager)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        if ($manager->hasCard($user)) {
+            return $this->render('espace_client.html.twig', [
+                'success' => 'Vous possédez déja une carte !',
+            ]);
+        } else {
+            $form = $this->createForm(AttachCard::class);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $test = $form->getData();
+                $card_number = $test['card_number'];
+
+                $result = $manager->attachCard($user, $card_number);
+
+                if ($result !== "NOK") {
+                    return $this->render('espace_client.html.twig', [
+                        'success' => 'Carte correctement rattachée',
+                    ]);
+                } else {
+                    return $this->render('customer_attach_card.html.twig', [
+                        'success' => 'Impossible de rattacher cette carte (Elle n\'existe pas)',
+                        'form' => $form->createView()
+                    ]);
+                }
+
+            }
+
+            return $this->render('customer_attach_card.html.twig', [
+                'form' => $form->createView(),
+            ]);
 
         }
     }

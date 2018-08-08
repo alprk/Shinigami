@@ -97,6 +97,7 @@ class CustomerManager
         if ($card !== null){
             $result = "OK";
             $card->setCustomer($customer);
+            $card->setCustomerNickname($customer->getNickname());
             $customer->setCard($card);
 
             $em->persist($customer);

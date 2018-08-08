@@ -1,0 +1,34 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Espace client
+{% endblock %}
+
+{% block content %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+    {% if success is defined %}
+        <p style="color:gold;">{{ success }}</p>
+    {% endif %}
+
+    <h1>Bienvenue sur l'espace client {{ app.user.username }}</h1>
+
+
+
+
+
+    <a href="{{path('customer_attach_card')}}">Rattacher une carte à son compte<br></a>
+
+    <hr>
+
+{% else %}
+
+    <a href="{{path('security_login')}}">
+        Veuillez vous connecter
+    </a>
+    ou
+    <a href="{{path('user_register')}}">Vous inscrire</a>
+{%  endif %}
+
+
+{% endblock %}
