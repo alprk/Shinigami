@@ -38,8 +38,10 @@ class EmployeeManager
         return $employee;
     }
 
-    public function deleteemployee()
+    public function deleteemployee(Employee $employee)
     {
+        $this->manager->remove($employee);
+        $this->manager->flush();
 
     }
 

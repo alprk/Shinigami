@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Manager les centres
+{% endblock %}
+
+{% block content %}
+
+{% if succes is defined %}
+    <p style="color:gold;">{{ succes }}</p>
+{% endif %}
+
+
+<h1>Bienvenue sur l'interface d'administration des centres</h1>
+
+<h3><a href="{{path('admin_add_center')}}">Créer un Centre</a></h3>
+
+<h3><a href="{{path('admin_modify_center')}}">Modifier un Centre</a></h3>
+
+<h3><a href="{{path('admin_delete_center')}}">Supprimer un Centre</a></h3>
+
+<h3><a href="{{path('admin_list_center')}}">Liste des Centres</a></h3>
+
+{% endblock %}
