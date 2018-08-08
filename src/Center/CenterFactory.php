@@ -16,13 +16,30 @@ class CenterFactory
     {
         $center = new Center();
 
-        $center->setName('LETEST');
-        $center->setCity('LETEST');
-        $center->setCode(125);
+        $center->setName($centerRequest->getName());
+        $center->setCity($centerRequest->getCity());
+        $center->setCode($centerRequest->getCode());
         $center->setCustomer(null);
         $center->setEmployee(null);
 
         return $center;
     }
+
+
+    public function deletefromcenterrequest(CenterRequest $centerRequest,Center $center)
+    {
+
+    }
+
+    public function updatefromcentererequest(CenterRequest $centerRequest, Center $center)
+    {
+        $center->setName($centerRequest->getName());
+        $center->setCity($centerRequest->getCity());
+        $center->setCode($centerRequest->getCode());
+
+        return $center;
+    }
+
+
 
 }

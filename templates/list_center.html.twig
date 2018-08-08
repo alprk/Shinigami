@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Liste des employés
+{% endblock %}
+
+{% block content %}
+<h1>Liste des Centres</h1>
+
+<table border="1px">
+    <tr>
+        <th>Nom</th>
+        <th>Ville</th>
+        <th>Code</th>
+    </tr>
+    {% for center in centers %}
+        <tr>
+            <td>{{ center.name }}</td>
+            <td>{{ center.city }}</td>
+            <td>{{ center.code }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

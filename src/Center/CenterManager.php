@@ -36,4 +36,18 @@ class CenterManager
 
     }
 
+    public function deletecenter(Center $center)
+    {
+        $this->manager->remove($center);
+        $this->manager->flush();
+    }
+
+
+    public function update(CenterRequest $centerRequest, Center $center)
+    {
+        $center = $this->centerfactory->updatefromcentererequest($centerRequest,$center);
+        $this->manager->persist($center);
+        $this->manager->flush();
+    }
+
 }
