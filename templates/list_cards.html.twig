@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Liste des cartes
+{% endblock %}
+
+{% block content %}
+<h1>Liste des Cartes</h1>
+
+<table>
+    <tr>
+        <th>Numéro de carte</th>
+    </tr>
+    {% for card in cards %}
+        <tr>
+            <td>{{ card.cardNumber }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

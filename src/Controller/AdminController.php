@@ -8,15 +8,24 @@
 
 namespace App\Controller;
 
+
 use App\Center\CenterManager;
 use App\Center\CenterRequest;
+
+use App\Card\CardManager;
+use App\Card\CardRequest;
+
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
 use App\Entity\Card;
 use App\Entity\Center;
 use App\Entity\Employee;
+
 use App\Form\AddCenter;
 use App\Form\DeleteCenter;
+
+use App\Form\AddCardType;
+
 use App\Form\EmployeeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -45,14 +54,9 @@ class AdminController extends Controller
      */
     public function card_management()
     {
-        return $this->render('administration.html.twig');
+        return $this->render('cardmanagement.html.twig');
 
     }
-
-
-
-
-
 
 
     /**
@@ -160,6 +164,8 @@ class AdminController extends Controller
 
 
 
+
+
     /**
      * @Route("/admin_center_management", name="admin_center_management", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
@@ -171,6 +177,7 @@ class AdminController extends Controller
     }
 
     /**
+
      * @Route("/admin_add_center", name="admin_add_center", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      */
@@ -190,14 +197,52 @@ class AdminController extends Controller
             return $this->render('centermanagement.html.twig',[
                 'succes' => 'Votre centre à correctement été ajouté !'
 
+              /**
+     * @Route("/admin_add_card", name="admin_add_card", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function addCard(Request $request, CardManager $cardManager, EntityManagerInterface $em)
+    {
+        $cardRequest = new CardRequest();
+
+        $form = $this->createForm(AddCardType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $test = $form->getData();
+            dump($test);
+
+            $nbCards = $test['number'];
+            $center = $em->getRepository(Center::class)->find($test['center']);
+
+            $centerCode = $center->getCode();
+
+            for ($i = 1; $i <= $nbCards; $i++) {
+                $card = $cardManager->createcard($cardRequest, $centerCode);
+            }
+
+            return $this->render('cardmanagement.html.twig',[
+                'success' => 'Carte créée'
             ]);
         }
 
-        return $this->render('add_center.html.twig',[
+        return $this->render('add_card.html.twig',[
             'form' => $form->createView()
         ]);
+    }
 
+    /**
+     * @Route("/admin_list_card", name="admin_list_card", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function listCards(EntityManagerInterface $em)
+    {
+        $cards = $em->getRepository(Card::class)->findAll();
 
+        return $this->render('list_cards.html.twig',[
+            'cards' => $cards
+        ]);
     }
 
 
