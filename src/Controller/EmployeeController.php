@@ -18,6 +18,7 @@ use App\Employee\EmployeeRequest;
 use App\Form\EmployeeType;
 use App\Score\ScoreManager;
 use App\Score\ScoreRequest;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,9 +57,17 @@ class EmployeeController extends Controller
      */
     public function testcard(CardManager $cardManager)
     {
-        $card = new CardRequest();
+        $cardRequest = new CardRequest();
 
-        $card = $cardManager->createcard($card);
+        $employee = $this->getUser();
+
+        $centerCode = $employee->getCenter()->getCode();
+
+        $cardRequest->setCustomer(null);
+
+        $cardRequest->setCustomerNickname(null);
+
+        $card = $cardManager->createcard($cardRequest, $centerCode);
 
         return $this->redirectToRoute('index');
     }
