@@ -43,4 +43,13 @@ class EmployeeManager
 
     }
 
+    public function update(EmployeeRequest $employeeRequest,Employee $employee)
+    {
+        $employee = $this->employeeFactory->updatefromemployeerequest($employeeRequest,$employee);
+        $this->manager->persist($employee);
+        $this->manager->flush();
+
+        return $employee;
+    }
+
 }

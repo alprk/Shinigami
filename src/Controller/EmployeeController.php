@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 {
     /**
      * Inscription d'un Utilisateur
-     * @Route("/register", name="user_register",methods={"GET", "POST"})
+     * @Route("/register_employee", name="employee_register",methods={"GET", "POST"})
      */
     public function register(Request $request, EmployeeManager $employeeManager)
     {

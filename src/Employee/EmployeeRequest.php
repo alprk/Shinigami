@@ -8,6 +8,7 @@
 
 namespace App\Employee;
 
+use App\Entity\Employee;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,9 +20,8 @@ class EmployeeRequest
      * @Assert\NotBlank(message="Veuillez saisir un nom d'utilisateur")
      */
     private $username;
-    /**
-     * @Assert\NotBlank(message="Veuillez saisir un mot de passe")
-     */
+
+
     private $password;
 
     /**
@@ -111,6 +111,22 @@ class EmployeeRequest
     public function setCenter($center): void
     {
         $this->center = $center;
+    }
+
+
+    /**
+     * @param Employee $employee
+     * @return EmployeeRequest
+     */
+    public static function createFromEmployee(Employee $employee): self
+    {
+        $emp = new self();
+        $emp->email = $employee->getEmail();
+        $emp->username = $employee->getUsername();
+        $emp->center = $employee->getCenter();
+        $emp->password = $employee->getPassword();
+
+        return $emp;
     }
 
 

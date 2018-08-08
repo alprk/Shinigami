@@ -42,6 +42,26 @@ class CustomerFactory
         return $customer;
     }
 
+    public function updatefromcustomerrequest(CustomerRequest $customerRequest,Customer $customer): Customer
+    {
+        $customer->setUsername($customerRequest->getUsername());
+        $customer->setCenter($customerRequest->getCenter());
+        $customer->setNickname($customerRequest->getNickname());
+        $customer->setAdress($customerRequest->getAdress());
+        $customer->setPhone($customerRequest->getPhone());
+        $customer->setEmail($customerRequest->getEmail());
+        $customer->setBirthdate($customerRequest->getBirthdate());
+
+        if ($customerRequest->getPassword() !== null)
+        {
+            $customer->setPassword($this->encoder->encodePassword($customer, $customerRequest->getPassword()));
+        }
+
+        return $customer;
+    }
+
+
+
 
 
 

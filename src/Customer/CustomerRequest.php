@@ -8,6 +8,7 @@
 
 namespace App\Customer;
 
+use App\Entity\Customer;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,9 +22,7 @@ class CustomerRequest
      */
     private $username;
 
-    /**
-     * @Assert\NotBlank(message="Veuillez saisir un mot de passe")
-     */
+
     private $password;
 
     /**
@@ -54,6 +53,24 @@ class CustomerRequest
     private $roles;
 
     private $center;
+
+    private $card;
+
+    /**
+     * @return mixed
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    /**
+     * @param mixed $card
+     */
+    public function setCard($card): void
+    {
+        $this->card = $card;
+    }
 
     /**
      * @return mixed
@@ -197,6 +214,26 @@ class CustomerRequest
     public function setBirthdate($birthdate): void
     {
         $this->birthdate = $birthdate;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return CustomerRequest
+     */
+    public static function createFromCustomer(Customer $customer): self
+    {
+        $cus = new self();
+        $cus->id = $customer->getId();
+        $cus->username = $customer->getUsername();
+        $cus->nickname = $customer->getNickname();
+        $cus->email = $customer->getEmail();
+        $cus->adress = $customer->getAdress();
+        $cus->phone = $customer->getPhone();
+        $cus->birthdate = $customer->getBirthdate();
+        $cus->center = $customer->getCenter();
+        $cus->card = $customer->getCard();
+        $cus->password = $customer->getPassword();
+        return $cus;
     }
 
 }

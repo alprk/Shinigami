@@ -63,6 +63,13 @@ class CustomerManager
         return $customer;
     }
 
+    public function update(CustomerRequest $customerRequest,Customer $customer): Customer
+    {
+        $customer = $this->customerFactory->updatefromcustomerrequest($customerRequest,$customer);
+        $this->manager->persist($customer);
+        $this->manager->flush();
+     }
+
     public function forgotPassword($username){
         $customer = $this->findCustomerOrEmployee($username);
         $mailer = $this->mailer;
@@ -164,9 +171,10 @@ class CustomerManager
             $customer = $repository->findOneBy(array
             ('username' => $username ));
         }
-
         return $customer;
     }
+
+
 
     /**
      * @param $token
