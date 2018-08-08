@@ -9,16 +9,17 @@
 namespace App\Score;
 
 
+use App\Entity\Card;
 use App\Entity\Score;
 
 class ScoreFactory
 {
-    public function createFromScoreRequest(ScoreRequest $request)
+    public function createFromScoreRequest(ScoreRequest $request,Card $card,$value)
     {
         $score = new Score();
-        $score->setCard(null);
+        $score->setCard($card);
         $score->setDate(new \DateTime());
-        $score->setScoreValue('1428');
+        $score->setScoreValue($value);
 
         return $score;
     }

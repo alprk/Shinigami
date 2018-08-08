@@ -57,6 +57,23 @@
                                 </li>
                             </ul>
                         </li>
+                    {% else %}
+                        {% if is_granted('ROLE_EMPLOYEE') %}
+                            <li class="menu-has-children"><a href="{{ path('customer_management') }}">Gérer les joueurs</a>
+                            <ul>
+                                <li><a href="{{ path('employee_add_card') }}">Ajouter une carte</a></li>
+                                <li><a href="{{ path('employee_list_players') }}">Voir la liste des joueurs</a></li>
+                                <li><a href="{{ path('employee_manage_score') }}">Gérer les scores</a></li>
+                            </ul>
+
+                        {% else %}
+                            <li class="menu-has-children"><a href="{{ path('espace_client') }}">Espace client</a>
+                            <ul>
+                                <li><a href="">Rattacher sa carte</a></li>
+                                <li><a href="">Mes visites</a></li>
+                            </ul>
+
+                        {% endif %}
                     {% endif %}
 
 

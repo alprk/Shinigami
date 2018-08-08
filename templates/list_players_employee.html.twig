@@ -1,0 +1,42 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Liste des joueurs du centre
+{% endblock %}
+
+{% block content %}
+
+<h1>Voici les joueurs du centre :</h1>
+
+<table border="1px;">
+
+    <tr>
+        <th>Nom du joueur</th>
+        <th>Pseudo</th>
+        <th>Adresse</th>
+        <th>Numéro de téléphone</th>
+        <th>Date de naissance</th>
+    </tr>
+
+    {% for player in players %}
+
+        <tr>
+            <td>{{ player.username }}</td>
+            <td>{{ player.nickname }}</td>
+            <td>{{ player.adress }}</td>
+            <td>{{ player.phone }}</td>
+            <td>{{ player.birthdate|date('d-m-Y') }}</td>
+
+        </tr>
+
+    {% endfor %}
+
+
+
+
+</table>
+
+{% endblock %}
+
+
+

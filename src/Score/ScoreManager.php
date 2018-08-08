@@ -9,6 +9,7 @@
 namespace App\Score;
 
 
+use App\Entity\Card;
 use App\Entity\Score;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -24,10 +25,10 @@ class ScoreManager
         $this->scoreFactory = $scoreFactory;
     }
 
-    public function createScore(ScoreRequest $request): Score
+    public function createScore(ScoreRequest $request,Card $card,$value): Score
     {
         # On appelle notre Factory pour créer notre Objet Score
-        $score = $this->scoreFactory->createFromScoreRequest($request);
+        $score = $this->scoreFactory->createFromScoreRequest($request,$card,$value);
 
         # On sauvegarde en BDD notre Score
         $this->manager->persist($score);

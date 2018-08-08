@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Administration des joueurs
+{% endblock %}
+
+{% block content %}
+
+{% if success is defined %}
+    <p style="color:gold;">{{ success }}</p>
+{% endif %}
+
+<h1>Bienvenue sur l'interface d'administration des joueurs</h1>
+
+<h3><a href="{{path('employee_add_card')}}">Créer une carte</a></h3>
+
+    <h3><a href="{{path('employee_manage_score')}}">Gérer les scores</a></h3>
+    <h3><a href="{{path('employee_list_players')}}">Liste des joueurs du centre</a></h3>
+
+
+<h3><a href="{{ path('index') }}">Revenir à l'accueil</a></h3>
+
+
+{% endblock %}
