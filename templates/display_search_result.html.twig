@@ -1,0 +1,37 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+   Informations d'un joueur
+{% endblock %}
+
+{% block content %}
+    <h1>Informations du joueur</h1>
+
+    <table border="1px;">
+
+        <tr>
+            <th>Nom du joueur</th>
+            <th>Pseudo</th>
+            <th>Adresse</th>
+            <th>Numéro de téléphone</th>
+            <th>Date de naissance</th>
+            <th>Email</th>
+            <th>Centre</th>
+        </tr>
+
+            <tr>
+                <td>{{ player.username }}</td>
+                <td>{{ player.nickname }}</td>
+                <td>{{ player.adress }}</td>
+                <td>{{ player.phone }}</td>
+                <td>{{ player.birthdate|date('d-m-Y') }}</td>
+                <td>{{ player.email }}</td>
+                <td>{{ player.center.name }}</td>
+            </tr>
+
+    </table>
+    <a href="{{ path('customer_management') }}"><button class="btn-secondary btn"> Retour à la gestion</button></a>
+
+
+
+{% endblock %}

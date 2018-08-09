@@ -86,9 +86,9 @@ class AdminController extends Controller
 
             $employee = $employeeManager->registerAsEmployee($employeerequest);
 
-            return $this->render('employeemanagement.html.twig',[
-                'success' => 'Employé créé'
-            ]);
+            $this->addFlash('notice', 'Employé créé !');
+
+            return $this->render('employeemanagement.html.twig');
 
 
         }
@@ -146,10 +146,9 @@ class AdminController extends Controller
             //
             $centerManager->deletecenter($center);
 
-            return $this->render('centermanagement.html.twig',[
-                'succes' => 'Votre centre à correctement été supprimé !'
+            $this->addFlash('notice', 'Votre centre à correctement été supprimé !');
 
-            ]);
+            return $this->render('centermanagement.html.twig');
         }
 
 
@@ -192,11 +191,15 @@ class AdminController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $center = $centerManager->createcenter($center);
+            $this->addFlash('notice', 'Votre centre à correctement été ajouté !');
 
-
-            return $this->render('centermanagement.html.twig', [
-                'succes' => 'Votre centre à correctement été ajouté !']);
+            return $this->render('centermanagement.html.twig');
         }
+
+        return $this->render('add_center.html.twig', [
+            'form' => $form->createView()
+    ]);
+
     }
 
     /**
@@ -223,10 +226,9 @@ class AdminController extends Controller
             for ($i = 1; $i <= $nbCards; $i++) {
                 $card = $cardManager->createcard($cardRequest, $centerCode);
             }
+            $this->addFlash('notice', 'Cartes créées !');
 
-            return $this->render('cardmanagement.html.twig',[
-                'success' => 'Carte créée'
-            ]);
+            return $this->render('cardmanagement.html.twig');
         }
 
         return $this->render('add_card.html.twig',[
@@ -271,11 +273,9 @@ class AdminController extends Controller
 
             $centerManager->update($centerrequest,$center);
 
+            $this->addFlash('notice', 'Votre centre à correctement été modifié !');
 
-            return $this->render('centermanagement.html.twig',[
-                'succes' => 'Votre centre à correctement été modifié !'
-
-            ]);
+            return $this->render('centermanagement.html.twig');
         }
 
         return $this->render('modify_center.html.twig',[
