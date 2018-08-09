@@ -193,15 +193,27 @@ class EmployeeController extends Controller
                 array('card_number' => $number)
             );
 
-            $player = $card->getCustomer();
+            if ($card)
+            {
+                $player = $card->getCustomer();
 
 
+                # Redirection
+                return $this->render('display_search_result.html.twig',[
+                    'player' => $player
+                ]);
+
+            }
+            else
+            {
+                $this->addFlash('danger', 'Numéro incorrect !');
+
+                return $this->render('employee_search_player.html.twig', [
+                    'form' => $form->createView()
+                ]);
+            }
 
 
-            # Redirection
-            return $this->render('display_search_result.html.twig',[
-                'player' => $player
-            ]);
         }
 
         return $this->render('employee_search_player.html.twig', [
