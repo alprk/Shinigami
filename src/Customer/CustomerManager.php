@@ -57,6 +57,8 @@ class CustomerManager
 
     }
 
+
+
     public function registerAsCustomer(CustomerRequest $customerRequest): Customer
     {
         # On appel notre Factory pour créer notre Objet Customer

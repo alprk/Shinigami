@@ -18,6 +18,7 @@ use App\Form\AttachCard;
 use App\Form\CustomerType;
 use App\Form\EmployeeType;
 use App\Score\ScoreManager;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class CustomerController extends Controller
 {
+    private $logger;
+
+    /**
+     * CustomerController constructor.
+     * @param $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+
     /**
      * Inscription d'un Customer
      * @Route("/register_customer",name="customer_register", methods={"GET","POST"})
@@ -40,6 +53,8 @@ class CustomerController extends Controller
 
             # Enregistrement de l'utilisateur
             $customer = $customerManager->registerAsCustomer($customer);
+
+            $this->log('Compte crée pour '. $customer->getUsername());
 
             # Redirection
             return $this->redirectToRoute('index');
@@ -77,7 +92,7 @@ class CustomerController extends Controller
                 $employee = $employeeManager->update($form->getData(),$ar);
 
                 $this->addFlash('notice', 'Modifications enregistrées !');
-
+                $this->log('Modification des informations personnelles de '. $employee->getUsername());
                 return $this->redirectToRoute('index');
             }
 
@@ -104,7 +119,7 @@ class CustomerController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $customer = $customerManager->update($form->getData(),$ar);
-
+                $this->log('Modification des informations personnelles de '. $customer->getUsername());
                 $this->addFlash('notice', 'Modifications enregistrées !');
 
                 return $this->redirectToRoute('index');
@@ -148,6 +163,9 @@ class CustomerController extends Controller
 
                 $result = $manager->attachCard($user, $card_number);
                 if ($result !== false) {
+
+                    $this->log('Rattachage de la carte numéro '. $card_number. "à ".$user->getUsername());
+
                     return $this->render('espace_client.html.twig', [
                         'success' => 'Carte correctement rattachée',
                     ]);
@@ -199,6 +217,12 @@ class CustomerController extends Controller
 
         return $this->render('espace_client.html.twig');
 
+
+    }
+
+    public function log($message)
+    {
+        $this->logger->info($message);
 
     }
 
