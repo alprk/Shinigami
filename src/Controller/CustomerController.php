@@ -17,6 +17,7 @@ use App\Entity\Employee;
 use App\Form\AttachCard;
 use App\Form\CustomerType;
 use App\Form\EmployeeType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,7 +45,7 @@ class CustomerController extends Controller
         }
 
         # Affichage du Formulaire dans la vue
-        return $this->render('test_customer.html.twig', [
+        return $this->render('registration.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -53,6 +54,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/modify_info", name="customer_modify_info", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function modifyInfo(Request $request, CustomerManager $customerManager,EmployeeManager $employeeManager)
 
@@ -73,13 +75,14 @@ class CustomerController extends Controller
 
                 $employee = $employeeManager->update($form->getData(),$ar);
 
+                $this->addFlash('notice', 'Modifications enregistrées !');
 
                 return $this->redirectToRoute('index');
             }
 
 
             # Affichage du Formulaire dans la vue
-            return $this->render('pol.html.twig', [
+            return $this->render('modifyinfo.html.twig', [
                 'form' => $form->createView(),
                 'status' => 'MODIFICATION_INFO'
             ]);
@@ -101,13 +104,14 @@ class CustomerController extends Controller
 
                 $customer = $customerManager->update($form->getData(),$ar);
 
+                $this->addFlash('notice', 'Modifications enregistrées !');
 
                 return $this->redirectToRoute('index');
             }
 
 
             # Affichage du Formulaire dans la vue
-            return $this->render('pol.html.twig', [
+            return $this->render('modifyinfo.html.twig', [
                 'form' => $form->createView(),
                 'status' => 'MODIFICATION_INFO'
             ]);
@@ -118,15 +122,20 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customer_attach_card", name="customer_attach_card", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function attach_card(Request $request, CustomerManager $manager)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if ($manager->hasCard($user)) {
-            return $this->render('espace_client.html.twig', [
-                'success' => 'Vous possédez déja une carte !',
-            ]);
+
+            $this->addFlash('danger', 'Vous possédez déja une carte !');
+
+            return $this->render('espace_client.html.twig');
+
+
+
         } else {
             $form = $this->createForm(AttachCard::class);
 
@@ -139,14 +148,26 @@ class CustomerController extends Controller
                 $result = $manager->attachCard($user, $card_number);
 
                 if ($result !== "NOK") {
-                    return $this->render('espace_client.html.twig', [
-                        'success' => 'Carte correctement rattachée',
-                    ]);
+
+
+                    $this->addFlash('notice', 'Carte correctement rattachée !');
+
+                    return $this->render('espace_client.html.twig');
+
+
+
+
+
                 } else {
+
+
+                    $this->addFlash('danger', 'Impossible de rattacher cette carte (Elle n\'existe pas)');
+
                     return $this->render('customer_attach_card.html.twig', [
                         'success' => 'Impossible de rattacher cette carte (Elle n\'existe pas)',
                         'form' => $form->createView()
                     ]);
+
                 }
 
             }

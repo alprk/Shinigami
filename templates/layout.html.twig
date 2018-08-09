@@ -64,12 +64,13 @@
                                 <li><a href="{{ path('employee_add_card') }}">Ajouter une carte</a></li>
                                 <li><a href="{{ path('employee_list_players') }}">Voir la liste des joueurs</a></li>
                                 <li><a href="{{ path('employee_manage_score') }}">Gérer les scores</a></li>
+                                <li><a href="{{ path('employee_search_player') }}">Chercher un joueur</a></li>
                             </ul>
 
                         {% else %}
-                            <li class="menu-has-children"><a href="{{ path('espace_client') }}">Espace client</a>
+                            <li class="menu-has-children"><a href="">Espace client</a>
                             <ul>
-                                <li><a href="">Rattacher sa carte</a></li>
+                                <li><a href="{{ path('customer_attach_card') }}">Rattacher sa carte</a></li>
                                 <li><a href="">Mes visites</a></li>
                             </ul>
 
@@ -93,9 +94,32 @@
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
+        {% for message in app.flashes('notice') %}
+
+            <div class="alert alert-success alert-dismissible" role="alert">
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+
+            <div class="alert alert-danger alert-dismissible" role="alert">
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
     </header><!-- #header -->
 
     <section id="hero">
+
         <div class="hero-container">
             {% block content '' %}
           <!--  <a href="#about" class="btn-get-started">Get Started</a> -->
