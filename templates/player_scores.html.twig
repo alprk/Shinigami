@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+Mes scores
+{% endblock %}
+
+{% block content %}
+    <h1>Mes scores</h1>
+
+    <table border="1px;">
+
+        <tr>
+            <th>Date</th>
+            <th>Score</th>
+        </tr>
+
+        {%  for score in scores %}
+            <tr>
+                <td>{{ score.date|date('d-m-Y') }}</td>
+                <td>{{ score.scorevalue }}</td>
+            </tr>
+        {%  endfor %}
+{%  endblock %}

@@ -15,6 +15,7 @@ use App\Entity\Employee;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CustomerManager
@@ -39,7 +40,12 @@ class CustomerManager
      */
     private $encoder;
 
-    public function __construct(ObjectManager $manager,CustomerFactory $customerFactory, EntityManagerInterface $em, \Twig_Environment $twig, \Swift_Mailer $mailer, UserPasswordEncoderInterface $encoder)
+    /**
+     * @var FlashBagInterface
+     */
+    private $flashBag;
+
+    public function __construct(ObjectManager $manager,CustomerFactory $customerFactory, EntityManagerInterface $em, \Twig_Environment $twig, \Swift_Mailer $mailer, UserPasswordEncoderInterface $encoder, FlashBagInterface $flashBag)
     {
         $this->manager = $manager;
         $this->customerFactory = $customerFactory;
@@ -47,6 +53,7 @@ class CustomerManager
         $this->twig = $twig;
         $this->mailer = $mailer;
         $this->encoder = $encoder;
+        $this->flashBag = $flashBag;
 
     }
 
@@ -73,9 +80,6 @@ class CustomerManager
     }
 
 
-
-
-
     public function forgotPassword($username){
         $customer = $this->findCustomerOrEmployee($username);
         $mailer = $this->mailer;
@@ -89,16 +93,28 @@ class CustomerManager
 
     public function attachCard($user, $cardNumber){
         $em = $this->em;
-        $result = "NOK";
+        $result = false;
 
         $card = $this->findCard($cardNumber);
         $customer = $em->getRepository(Customer::class)->find($user->getId());
+        $centerCode = $customer->getCenter()->getCode();
+        $codeValid = $this->checkCenterCode($centerCode, $cardNumber);
 
-        if ($card !== null){
-            $result = "OK";
+        if($card === null){
+            $this->flashBag->add('notice', 'Carte inexistante');
+        }
+
+        if(!$codeValid && $card !== null){
+           $this->flashBag->add('notice', 'Cette carte n\'est pas de votre centre');
+        }
+
+        if ($card !== null && $codeValid){
+            $result = true;
             $card->setCustomer($customer);
             $card->setCustomerNickname($customer->getNickname());
             $customer->setCard($card);
+
+            $this->flashBag->add('notice', 'Carte rattachée');
 
             $em->persist($customer);
             $em->persist($card);
@@ -111,6 +127,18 @@ class CustomerManager
     public function hasCard($customer){
         $result = false;
         if($customer->getCard() !== null){
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    private function checkCenterCode($centerCode, $cardNumber)
+    {
+        $result = false;
+        $cardCode = substr($cardNumber, 0, 3);
+
+        if($cardCode == $centerCode){
             $result = true;
         }
 

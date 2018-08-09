@@ -17,6 +17,7 @@ use App\Entity\Employee;
 use App\Form\AttachCard;
 use App\Form\CustomerType;
 use App\Form\EmployeeType;
+use App\Score\ScoreManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -138,7 +139,7 @@ class CustomerController extends Controller
 
                 $result = $manager->attachCard($user, $card_number);
 
-                if ($result !== "NOK") {
+                if ($result !== false) {
                     return $this->render('espace_client.html.twig', [
                         'success' => 'Carte correctement rattachée',
                     ]);
@@ -156,6 +157,22 @@ class CustomerController extends Controller
             ]);
 
         }
+    }
+
+    /**
+     * @Route("/customer_show_scores", name="customer_show_scores", methods={"GET", "POST"})
+     */
+    public function showScores(ScoreManager $manager)
+    {
+        $customer = $this->get('security.token_storage')->getToken()->getUser();
+
+        $scores = $manager->getScores($customer);
+
+        return $this->render('player_scores.html.twig', [
+            'scores' => $scores
+        ]);
+
+
     }
 
 }
