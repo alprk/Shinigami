@@ -28,8 +28,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+
+use Psr\Log\LoggerInterface;
+
 class EmployeeController extends Controller
 {
+    private $logger;
+
+    /**
+     * EmployeeController constructor.
+     * @param $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+
     /**
      * Inscription d'un Employee
      * @Route("/register_employee", name="employee_register",methods={"GET", "POST"})
@@ -47,6 +62,8 @@ class EmployeeController extends Controller
             $employee = $employeeManager->registerAsEmployee($employee);
 
             $this->addFlash('notice', 'Compte créé !');
+
+            $this->log('Compte crée pour '. $employee->getUsername());
 
             # Redirection
             return $this->redirectToRoute('index');
@@ -76,6 +93,8 @@ class EmployeeController extends Controller
 
         $card = $cardManager->createcard($cardRequest, $centerCode);
         $this->addFlash('notice', 'Carte créée !');
+
+        $this->log('Création d\'une carte par '. $employee->getUsername());
 
         return $this->render('index.html.twig');
     }
@@ -122,6 +141,8 @@ class EmployeeController extends Controller
                $scoreManager->createScore($scorerequest,$card,$value);
 
                $this->addFlash('notice', 'Score correctement rajouté !');
+
+               $this->log('Ajout du score de '. $value . ' pour l\'utilisateur '. $customer->getUsername() . ' par '. $employee->getUsername());
 
                return $this->render('customer_management.html.twig',
                    [
@@ -223,6 +244,13 @@ class EmployeeController extends Controller
         return $this->render('employee_search_player.html.twig', [
             'form' => $form->createView()
         ]);
+
+    }
+
+
+    public function log($message)
+    {
+        $this->logger->info($message);
 
     }
 
