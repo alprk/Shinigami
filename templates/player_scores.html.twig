@@ -16,7 +16,7 @@ Mes scores
 
         {%  for score in scores %}
             <tr>
-                <td>{{ score.date|date('d-m-Y h:i') }}</td>
+                <td>{{ score.date|date('d-m-Y G:i') }}</td>
                 <td>{{ score.scorevalue }}</td>
             </tr>
         {%  endfor %}
