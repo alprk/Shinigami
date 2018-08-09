@@ -12,17 +12,20 @@ namespace App\Score;
 use App\Entity\Card;
 use App\Entity\Score;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ScoreManager
 {
     private $manager;
     private $scoreFactory;
+    private $em;
 
 
-    public function __construct(ObjectManager $manager,ScoreFactory $scoreFactory)
+    public function __construct(ObjectManager $manager,ScoreFactory $scoreFactory, EntityManagerInterface $em)
     {
         $this->manager = $manager;
         $this->scoreFactory = $scoreFactory;
+        $this->em = $em;
     }
 
     public function createScore(ScoreRequest $request,Card $card,$value): Score
@@ -36,6 +39,20 @@ class ScoreManager
 
         # On retourne le nouveau Score
         return $score;
+    }
+
+    public function getScores($user){
+        $em = $this->em;
+
+        $card = $em->getRepository(Card::class)->findOneBy(
+            array('customer' => $user)
+        );
+
+        $scores = $em->getRepository(Score::class)->findBy(
+            array('card' => $card)
+        );
+
+        return $scores;
     }
 
 

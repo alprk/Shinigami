@@ -71,7 +71,7 @@
                             <li class="menu-has-children"><a href="">Espace client</a>
                             <ul>
                                 <li><a href="{{ path('customer_attach_card') }}">Rattacher sa carte</a></li>
-                                <li><a href="">Mes visites</a></li>
+                                <li><a href="{{ path('customer_show_scores') }}">Mes visites</a></li>
                             </ul>
 
                         {% endif %}
@@ -121,6 +121,12 @@
     <section id="hero">
 
         <div class="hero-container">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
             {% block content '' %}
           <!--  <a href="#about" class="btn-get-started">Get Started</a> -->
         </div>

@@ -17,6 +17,7 @@ use App\Entity\Employee;
 use App\Form\AttachCard;
 use App\Form\CustomerType;
 use App\Form\EmployeeType;
+use App\Score\ScoreManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -146,22 +147,14 @@ class CustomerController extends Controller
                 $card_number = $test['card_number'];
 
                 $result = $manager->attachCard($user, $card_number);
+                if ($result !== false) {
+                    return $this->render('espace_client.html.twig', [
+                        'success' => 'Carte correctement rattachée',
+                    ]);
 
-                if ($result !== "NOK") {
-
-
-                    $this->addFlash('notice', 'Carte correctement rattachée !');
-
-                    return $this->render('espace_client.html.twig');
-
-
-
-
-
+     
                 } else {
 
-
-                    $this->addFlash('danger', 'Impossible de rattacher cette carte (Elle n\'existe pas)');
 
                     return $this->render('customer_attach_card.html.twig', [
                         'success' => 'Impossible de rattacher cette carte (Elle n\'existe pas)',
@@ -177,6 +170,22 @@ class CustomerController extends Controller
             ]);
 
         }
+    }
+
+    /**
+     * @Route("/customer_show_scores", name="customer_show_scores", methods={"GET", "POST"})
+     */
+    public function showScores(ScoreManager $manager)
+    {
+        $customer = $this->get('security.token_storage')->getToken()->getUser();
+
+        $scores = $manager->getScores($customer);
+
+        return $this->render('player_scores.html.twig', [
+            'scores' => $scores
+        ]);
+
+
     }
 
 }
