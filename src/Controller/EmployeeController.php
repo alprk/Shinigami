@@ -15,9 +15,11 @@ use App\Center\CenterManager;
 use App\Center\CenterRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
+use App\Entity\Card;
 use App\Entity\Customer;
 use App\Form\EmployeeType;
 use App\Form\ModifyScore;
+use App\Form\SearchPlayerType;
 use App\Score\ScoreManager;
 use App\Score\ScoreRequest;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +31,7 @@ use Symfony\Component\HttpFoundation\Request;
 class EmployeeController extends Controller
 {
     /**
-     * Inscription d'un Utilisateur
+     * Inscription d'un Employee
      * @Route("/register_employee", name="employee_register",methods={"GET", "POST"})
      */
     public function register(Request $request, EmployeeManager $employeeManager)
@@ -44,12 +46,14 @@ class EmployeeController extends Controller
             # Enregistrement de l'utilisateur
             $employee = $employeeManager->registerAsEmployee($employee);
 
+            $this->addFlash('notice', 'Compte créé !');
+
             # Redirection
             return $this->redirectToRoute('index');
         }
 
         # Affichage du Formulaire dans la vue
-        return $this->render('pol.html.twig', [
+        return $this->render('registration.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -71,59 +75,11 @@ class EmployeeController extends Controller
         $cardRequest->setCustomerNickname(null);
 
         $card = $cardManager->createcard($cardRequest, $centerCode);
+        $this->addFlash('notice', 'Carte créée !');
 
-        return $this->render('index.html.twig',[
-            'success' => 'Carte créée !'
-        ]);
+        return $this->render('index.html.twig');
     }
 
-    /**
-     * Inscription d'un Utilisateur
-     * @Route("/testcard", name="test_card",methods={"GET", "POST"})
-     */
-    public function testcard(CardManager $cardManager)
-    {
-        $cardRequest = new CardRequest();
-
-        $employee = $this->getUser();
-
-        $centerCode = $employee->getCenter()->getCode();
-
-        $cardRequest->setCustomer(null);
-
-        $cardRequest->setCustomerNickname(null);
-
-        $card = $cardManager->createcard($cardRequest, $centerCode);
-
-        return $this->redirectToRoute('index');
-    }
-
-
-    /**
-     * Inscription d'un Utilisateur
-     * @Route("/testcenter", name="test_center",methods={"GET", "POST"})
-     */
-    public function testcenter(CenterManager $centerManager)
-    {
-        $center = new CenterRequest();
-
-        $card = $centerManager->createcenter($center);
-
-        return $this->redirectToRoute('index');
-    }
-
-    /**
-     * Inscription d'un Score
-     * @Route("/testscore", name="test_score", methods={"GET", "POST"})
-     */
-    public function testscore(ScoreManager $scoreManager)
-    {
-        $scoreRequest = new ScoreRequest();
-
-        $score = $scoreManager->createScore($scoreRequest);
-
-        return $this->redirectToRoute('index');
-    }
 
     /**
      * @Route("/customer_management", name="customer_management", methods={"GET", "POST"})
@@ -134,8 +90,6 @@ class EmployeeController extends Controller
 
         return $this->render('customer_management.html.twig');
     }
-
-
 
 
     /**
@@ -167,24 +121,25 @@ class EmployeeController extends Controller
 
                $scoreManager->createScore($scorerequest,$card,$value);
 
+               $this->addFlash('notice', 'Score correctement rajouté !');
+
                return $this->render('customer_management.html.twig',
                    [
                        'form' => $form->createView(),
-                       'success' => 'Score correctement rajouté'
+
                    ]);
 
            }
            else
            {
+               $this->addFlash('danger', 'Echec d\'ajout du score, le joueur n\'a pas encore rattaché de carte');
+
                return $this->render('customer_management.html.twig',
                    [
-                       'form' => $form->createView(),
-                       'success' => 'Echec d\'ajout du score, le joueur n\'a pas encore rattaché de carte'
+                       'form' => $form->createView()
                    ]);
 
            }
-
-
 
 
         }
@@ -194,9 +149,7 @@ class EmployeeController extends Controller
                 'form' => $form->createView()
             ]);
 
-
     }
-
 
 
     /**
@@ -205,18 +158,56 @@ class EmployeeController extends Controller
      */
     public function listPlayers(EntityManagerInterface $em)
     {
-        $employee = $this->get('security.token_storage')->getToken()->getUser();
 
-        $centerId = $employee->getCenter();
+        $employee = $this->getUser();
+
+        $center = $employee->getCenter();
 
         $players = $em->getRepository(Customer::class)->findBy(
-            array('center' => $centerId)
+            array('center' => $center)
         );
 
         return $this->render('list_players_employee.html.twig',
             [
                 'players' => $players
             ]);
+    }
+
+
+    /**
+     * @Route("/employee_search_player", name="employee_search_player", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_EMPLOYEE')")
+     */
+    public function searchPlayer(EntityManagerInterface $em,Request $request)
+    {
+        $form = $this->createForm(SearchPlayerType::class)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $playerrequest = $form->getData();
+
+            $number = $playerrequest['number'];
+
+            $card = $em->getRepository(Card::class)->findOneBy(
+                array('card_number' => $number)
+            );
+
+            $player = $card->getCustomer();
+
+
+
+
+            # Redirection
+            return $this->render('display_search_result.html.twig',[
+                'player' => $player
+            ]);
+        }
+
+        return $this->render('employee_search_player.html.twig', [
+            'form' => $form->createView()
+        ]);
+
     }
 
 }
