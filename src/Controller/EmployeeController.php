@@ -163,9 +163,13 @@ class EmployeeController extends Controller
 
         $center = $employee->getCenter();
 
-        $players = $em->getRepository(Customer::class)->findBy(
-            array('center' => $center)
-        );
+        $players = $em->getRepository(Customer::class)->createQueryBuilder('c')
+
+        ->andWhere('c.roles = :val')
+        ->andWhere('c.center = :val2')
+        ->setParameter('val', 'a:1:{i:0;s:9:"ROLE_USER";}')
+        ->setParameter('val2', $center)
+        ->getQuery()->getResult();
 
         return $this->render('list_players_employee.html.twig',
             [

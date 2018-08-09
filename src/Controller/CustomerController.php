@@ -174,6 +174,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customer_show_scores", name="customer_show_scores", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function showScores(ScoreManager $manager)
     {
@@ -184,6 +185,19 @@ class CustomerController extends Controller
         return $this->render('player_scores.html.twig', [
             'scores' => $scores
         ]);
+
+
+    }
+
+    /**
+     * @Route("/customer_espace_client", name="customer_espace_client", methods={"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function espaceclient(ScoreManager $manager)
+    {
+
+
+        return $this->render('espace_client.html.twig');
 
 
     }
