@@ -10,19 +10,22 @@ namespace App\Customer;
 
 
 use App\Entity\Customer;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CustomerFactory
 {
     private $encoder;
+    private $em;
 
     /**
      * CustomerFactory constructor.
      * @param $encoder
      */
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
     {
         $this->encoder = $encoder;
+        $this->em = $em;
     }
 
     public function createFromCustomerRequest(CustomerRequest $request): Customer
