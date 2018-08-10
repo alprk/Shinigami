@@ -28,8 +28,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+
+use Psr\Log\LoggerInterface;
+
 class EmployeeController extends Controller
 {
+    private $logger;
+
+    /**
+     * EmployeeController constructor.
+     * @param $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+
     /**
      * Inscription d'un Employee
      * @Route("/register_employee", name="employee_register",methods={"GET", "POST"})
@@ -47,6 +62,8 @@ class EmployeeController extends Controller
             $employee = $employeeManager->registerAsEmployee($employee);
 
             $this->addFlash('notice', 'Compte créé !');
+
+            $this->log('Compte crée pour '. $employee->getUsername());
 
             # Redirection
             return $this->redirectToRoute('index');
@@ -76,6 +93,8 @@ class EmployeeController extends Controller
 
         $card = $cardManager->createcard($cardRequest, $centerCode);
         $this->addFlash('notice', 'Carte créée !');
+
+        $this->log('Création d\'une carte par '. $employee->getUsername());
 
         return $this->render('index.html.twig');
     }
@@ -123,6 +142,8 @@ class EmployeeController extends Controller
 
                $this->addFlash('notice', 'Score correctement rajouté !');
 
+               $this->log('Ajout du score de '. $value . ' pour l\'utilisateur '. $customer->getUsername() . ' par '. $employee->getUsername());
+
                return $this->render('customer_management.html.twig',
                    [
                        'form' => $form->createView(),
@@ -163,9 +184,13 @@ class EmployeeController extends Controller
 
         $center = $employee->getCenter();
 
-        $players = $em->getRepository(Customer::class)->findBy(
-            array('center' => $center)
-        );
+        $players = $em->getRepository(Customer::class)->createQueryBuilder('c')
+
+        ->andWhere('c.roles = :val')
+        ->andWhere('c.center = :val2')
+        ->setParameter('val', 'a:1:{i:0;s:9:"ROLE_USER";}')
+        ->setParameter('val2', $center)
+        ->getQuery()->getResult();
 
         return $this->render('list_players_employee.html.twig',
             [
@@ -193,20 +218,39 @@ class EmployeeController extends Controller
                 array('card_number' => $number)
             );
 
-            $player = $card->getCustomer();
+            if ($card)
+            {
+                $player = $card->getCustomer();
 
 
+                # Redirection
+                return $this->render('display_search_result.html.twig',[
+                    'player' => $player
+                ]);
+
+            }
+            else
+            {
+                $this->addFlash('danger', 'Numéro incorrect !');
+
+                return $this->render('employee_search_player.html.twig', [
+                    'form' => $form->createView()
+                ]);
+            }
 
 
-            # Redirection
-            return $this->render('display_search_result.html.twig',[
-                'player' => $player
-            ]);
         }
 
         return $this->render('employee_search_player.html.twig', [
             'form' => $form->createView()
         ]);
+
+    }
+
+
+    public function log($message)
+    {
+        $this->logger->info($message);
 
     }
 

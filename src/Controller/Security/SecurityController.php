@@ -19,6 +19,7 @@ use App\Form\CustomerType;
 use App\Form\ForgotPassword;
 use App\Form\LoginType;
 use App\Form\ResetPassword;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends Controller
 
 {
+
+    private $logger;
+
+    /**
+     * EmployeeController constructor.
+     * @param $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
     /**
 
      * Connexion d'un utilisateur
@@ -113,6 +125,9 @@ class SecurityController extends Controller
 
             $manager->forgotPassword($username);
 
+            $this->log('Demande de réinitialisation du mot de passe pour l\'utilisateur '.$username );
+
+
             return $this->render('index.html.twig', [
                 'success' => 'Un e-mail de réinitialisation de votre mot de passe vous a été envoyé!'
             ]);
@@ -143,6 +158,10 @@ class SecurityController extends Controller
             $newPassword = $test['password'];
 
             $manager->resetPassword($customer, $newPassword);
+
+            $this->log('Réinitialisation du mot de passe pour' . $customer->getUsername() );
+
+
             return $this->render('index.html.twig', [
                 'success' => 'Votre mot de passe a bien été réinitialisé!'
             ]);
@@ -151,6 +170,12 @@ class SecurityController extends Controller
         return $this->render('reset_password.html.twig', [
             'form' => $form->createView()
         ]);
+
+    }
+
+    public function log($message)
+    {
+        $this->logger->info($message);
 
     }
 

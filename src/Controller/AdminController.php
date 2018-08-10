@@ -28,6 +28,7 @@ use App\Form\AddCardType;
 
 use App\Form\EmployeeType;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -37,6 +38,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
+
+    private $logger;
+
+    /**
+     * EmployeeController constructor.
+     * @param $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @Route("/administration", name="admin_management", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
@@ -87,6 +100,9 @@ class AdminController extends Controller
             $employee = $employeeManager->registerAsEmployee($employeerequest);
 
             $this->addFlash('notice', 'Employé créé !');
+
+            $this->log('Ajout de l\'employee '. $employee->getUsername() . ' par '.$this->getUser()->getUsername());
+
 
             return $this->render('employeemanagement.html.twig');
 
@@ -148,6 +164,9 @@ class AdminController extends Controller
 
             $this->addFlash('notice', 'Votre centre à correctement été supprimé !');
 
+            $this->log('Suppression du centre '. $center->getName() . ' par '.$this->getUser()->getUsername());
+
+
             return $this->render('centermanagement.html.twig');
         }
 
@@ -192,6 +211,7 @@ class AdminController extends Controller
 
             $center = $centerManager->createcenter($center);
             $this->addFlash('notice', 'Votre centre à correctement été ajouté !');
+            $this->log('Ajout du centre '. $center->getName() . ' par '.$this->getUser()->getUsername());
 
             return $this->render('centermanagement.html.twig');
         }
@@ -227,6 +247,7 @@ class AdminController extends Controller
                 $card = $cardManager->createcard($cardRequest, $centerCode);
             }
             $this->addFlash('notice', 'Cartes créées !');
+            $this->log('Ajout de '. $nbCards .' cartes pour le centre '.$center->getName(). ' par '.$this->getUser()->getUsername());
 
             return $this->render('cardmanagement.html.twig');
         }
@@ -274,6 +295,7 @@ class AdminController extends Controller
             $centerManager->update($centerrequest,$center);
 
             $this->addFlash('notice', 'Votre centre à correctement été modifié !');
+            $this->log('Modification du centre '. $center->getName().  ' par '.$this->getUser()->getUsername());
 
             return $this->render('centermanagement.html.twig');
         }
@@ -296,6 +318,14 @@ class AdminController extends Controller
         return $this->render('list_center.html.twig', [
             'centers' => $centers
         ]);
+
+    }
+
+
+    public function log($message)
+    {
+        $this->logger->info($message);
+
     }
 
 }

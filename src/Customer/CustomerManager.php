@@ -57,6 +57,8 @@ class CustomerManager
 
     }
 
+
+
     public function registerAsCustomer(CustomerRequest $customerRequest): Customer
     {
         $em = $this->em;
