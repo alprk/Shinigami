@@ -169,10 +169,7 @@ class CustomerController extends Controller
                     return $this->render('espace_client.html.twig', [
                         'success' => 'Carte correctement rattachée',
                     ]);
-
-     
                 } else {
-
 
                     return $this->render('customer_attach_card.html.twig', [
                         'success' => 'Impossible de rattacher cette carte (Elle n\'existe pas)',
