@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
+    {% for label, messages in app.flashes(['warning', 'error','success']) %}
+        {%  for message in messages %}
+        <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+        </div>
+         {%  endfor %}
+    {% endfor %}
 
     {% if success is defined %}
         <p style="color:gold;">{{ success }}</p>

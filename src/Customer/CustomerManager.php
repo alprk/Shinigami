@@ -61,12 +61,34 @@ class CustomerManager
 
     public function registerAsCustomer(CustomerRequest $customerRequest): Customer
     {
+        $em = $this->em;
+
         # On appel notre Factory pour créer notre Objet Customer
         $customer = $this->customerFactory->createFromCustomerRequest($customerRequest);
 
-        # On sauvegarde en BDD notre Customer
-        $this->manager->persist($customer);
-        $this->manager->flush();
+        $email = $customer->getEmail();
+        $username = $customer->getUsername();
+
+        $customerFound = $em->getRepository(Customer::class)->findOneBy(array(
+            'username' => $username ));
+
+        $customerFound2 = $em->getRepository(Customer::class)->findOneBy(array(
+            'email' => $email
+        ));
+
+        if($customerFound !== null){
+            $this->flashBag->add('error', 'Ce nom d\'utilisateur est déjà pris');
+        }elseif($customerFound2 !== null){
+            $this->flashBag->add('error', 'Cet e-mail est déjà utilisé');
+        }
+
+        if($customerFound == null && $customerFound2 == null ){
+            # On sauvegarde en BDD notre Customer
+            $this->manager->persist($customer);
+            $this->manager->flush();
+
+            $this->flashBag->add('success', "Félicitations, vous êtes maintenant inscrit !");
+        }
 
         # On retourne le nouveau Customer
         return $customer;
