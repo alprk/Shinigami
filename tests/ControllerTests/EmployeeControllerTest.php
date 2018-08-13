@@ -6,8 +6,7 @@
  * Time: 16:11
  */
 
-namespace App\Tests;
-
+namespace App\Tests\ControllerTests;
 
 use Symfony\Component\Panther\PantherTestCase;
 
@@ -19,7 +18,7 @@ class EmployeeControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/register_employee');
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $form = $crawler->selectButton('Créer l\'employé')->form();
 
@@ -31,7 +30,7 @@ class EmployeeControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -46,7 +45,7 @@ class EmployeeControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/login');
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $form = $crawler->selectButton('Connexion')->form();
 
@@ -56,13 +55,13 @@ class EmployeeControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $link = $crawler->selectLink('Créer une carte pour mon centre')->link();
 
         $crawler = $client->click($link);
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -78,7 +77,7 @@ class EmployeeControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/employee_manage_score');
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $form = $crawler->selectButton('Ajouter le score')->form();
 
@@ -88,7 +87,7 @@ class EmployeeControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -101,7 +100,7 @@ class EmployeeControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/employee_list_players');
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $tableText = $crawler->filter('table td.username')->eq(0)->text();
 
@@ -117,7 +116,7 @@ class EmployeeControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/employee_search_player');
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $form = $crawler->selectButton('Chercher')->form();
 
@@ -126,7 +125,7 @@ class EmployeeControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('tests/screen/screen.jpg');
 
         $tableText = $crawler->filter('table td.username')->eq(0)->text();
 
