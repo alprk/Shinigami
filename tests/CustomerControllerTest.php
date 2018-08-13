@@ -103,13 +103,15 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/customer_attach_card');
 
-        $client->takeScreenshot('screen.jpg');
+        $client->takeScreenshot('screenTest.jpg');
 
         $form = $crawler->selectButton('Rattacher la carte')->form();
 
         $form['attach_card[card_number]'] = '1114803112';
 
         $crawler = $client->submit($form);
+
+        $client->takeScreenshot('screenTest.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
