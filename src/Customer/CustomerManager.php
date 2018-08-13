@@ -54,10 +54,7 @@ class CustomerManager
         $this->mailer = $mailer;
         $this->encoder = $encoder;
         $this->flashBag = $flashBag;
-
     }
-
-
 
     public function registerAsCustomer(CustomerRequest $customerRequest): Customer
     {

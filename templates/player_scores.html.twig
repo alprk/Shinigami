@@ -8,7 +8,6 @@ Mes scores
     <h1>Mes scores</h1>
 
     <table border="1px;">
-
         <tr>
             <th>Date</th>
             <th>Score</th>
@@ -16,8 +15,8 @@ Mes scores
 
         {%  for score in scores %}
             <tr>
-                <td>{{ score.date|date('d-m-Y G:i') }}</td>
-                <td>{{ score.scorevalue }}</td>
+                <td class="scoreDate">{{ score.date|date('d-m-Y G:i') }}</td>
+                <td class="scoreVal">{{ score.scorevalue }}</td>
             </tr>
         {%  endfor %}
 {%  endblock %}
