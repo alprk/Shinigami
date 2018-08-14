@@ -24,11 +24,6 @@
 
         <hr>
 
-        {% if is_granted('ROLE_EMPLOYEE') %}
-            <a href="{{path('employee_add_card')}}">Créer une carte pour mon centre</a>
-            <br>
-        {% endif %}
-
     {% else %}
         <a href="{{path('security_login')}}">
             Veuillez vous connecter
