@@ -72,11 +72,15 @@ class EmployeeControllerTest extends PantherTestCase
 
         $client->takeScreenshot('tests/screen/screen3.jpg');
 
-        $link = $crawler->selectLink('Créer une carte pour mon centre')->link();
 
-        $crawler = $client->click($link);
 
-        $client->takeScreenshot('tests/screen/screen1.jpg');
+        /*$link = $crawler->selectLink('Créer une carte pour mon centre')->link();
+
+        $crawler = $client->click($link);*/
+
+        $crawler = $client->request('GET', '/employee_add_card');
+
+        $client->takeScreenshot('tests/screen/screenCardCreated.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -96,7 +100,7 @@ class EmployeeControllerTest extends PantherTestCase
 
         $form = $crawler->selectButton('Ajouter le score')->form();
 
-        $form['modify_score[customer_id]'] = '2';
+        $form['modify_score[customer_id]'] = '1';
         $form['modify_score[score]'] = '3427';
 
         sleep(2);
