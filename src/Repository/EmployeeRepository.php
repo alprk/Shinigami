@@ -47,4 +47,12 @@ class EmployeeRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllEmployees()
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.roles = :val')
+            ->setParameter('val', 'a:1:{i:0;s:13:"ROLE_EMPLOYEE";}')
+            ->getQuery()
+            ->getResult();
+    }
 }
