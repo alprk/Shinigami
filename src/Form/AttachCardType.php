@@ -1,37 +1,51 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Etudiant0
- * Date: 31/07/2018
- * Time: 11:13
+ * User: Etudiant
+ * Date: 30/07/2018
+ * Time: 12:08
  */
 
 namespace App\Form;
-
-
+use App\Entity\Center;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ForgotPassword extends AbstractType
+class AttachCardType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
+
     {
         $builder
-            ->add('username', TextType::class, [
+            ->add('card_number', TextType::class, [
 
-                'label' => "Nom d'utilisateur",
+                'required'  => true,
+                'label'     => 'Numéro de carte :',
+                'attr'      => [
 
-                'attr' => ['placeholder' => "Nom d'utilisateur :"]
+                    'placeholder' => 'Card Number :'
+
+                ]
 
             ])
             ->add('submit', SubmitType::class, [
 
-                'label' => 'Valider'
+                'label' => 'Rattacher la carte'
 
             ]);
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -41,4 +55,6 @@ class ForgotPassword extends AbstractType
                 'data_class' => null
             ]);
     }
+
+
 }

@@ -18,7 +18,7 @@ use App\Employee\EmployeeRequest;
 use App\Entity\Card;
 use App\Entity\Customer;
 use App\Form\EmployeeType;
-use App\Form\ModifyScore;
+use App\Form\ModifyScoreType;
 use App\Form\SearchPlayerType;
 use App\Score\ScoreManager;
 use App\Score\ScoreRequest;
@@ -124,7 +124,7 @@ class EmployeeController extends Controller
             ];
 
 
-        $form = $this->createForm(ModifyScore::class,null,$options);
+        $form = $this->createForm(ModifyScoreType::class,null,$options);
 
         $form->handleRequest($request);
 

@@ -25,30 +25,25 @@ class CardFactoryTest extends TestCase
 
     public function testCardRequestwillreturnCard()
     {
-        $customer = $this->createMock(Customer::class);
-
-        $card = $this->createConfiguredMock(Card::class, [
-            'getCustomer' => $customer
+        $customer = $this->createConfiguredMock(Customer::class, [
+            'getUsername' => 'test',
+            'getEmail' => 'test@email.fr'
         ]);
 
-        $cardrequest = $this->createConfiguredMock(CardRequest::class, [
-            'getCustomer' => $customer
-        ]);
 
-        $stub = $this->getMockBuilder(CardFactory::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->getMock();
+        $cardrequest = new CardRequest();
 
-        $stub->method('createFromCardRequest')
-            ->willReturn($card);
+        $cardrequest->setCustomer($customer);
+
+        $cardfactory = new CardFactory();
 
 
-        $this->assertSame($card, $stub->createFromCardRequest($cardrequest));
+        $card = $cardfactory->createFromCardRequest($cardrequest);
 
-        $this->assertSame($card->getCustomer(), $cardrequest->getCustomer());
+
+        $this->assertSame($customer->getUsername(), $card->getCustomer()->getUsername());
+
+        $this->assertInstanceOf(Card::class,$card);
     }
 
 

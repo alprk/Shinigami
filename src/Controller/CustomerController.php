@@ -14,7 +14,7 @@ use App\Customer\CustomerRequest;
 use App\Employee\EmployeeManager;
 use App\Employee\EmployeeRequest;
 use App\Entity\Employee;
-use App\Form\AttachCard;
+use App\Form\AttachCardType;
 use App\Form\CustomerType;
 use App\Form\EmployeeType;
 use App\Score\ScoreManager;
@@ -153,7 +153,7 @@ class CustomerController extends Controller
 
 
         } else {
-            $form = $this->createForm(AttachCard::class);
+            $form = $this->createForm(AttachCardType::class);
 
             $form->handleRequest($request);
 
