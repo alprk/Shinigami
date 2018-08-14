@@ -83,6 +83,7 @@ class AppFixtures extends Fixture
         $customer2->setEmail('player_email@email.com');
         $customer2->setRoles(['ROLE_USER']);
         $customer2->setCenter($center);
+        $customer2->setToken('52ef8eac14c42c2293d7c65c990b50a652ef8eac14c42c2293d7c65c990b50a6');
 
         $employee = new Employee();
         $employee->setUsername('Employee');
@@ -96,6 +97,11 @@ class AppFixtures extends Fixture
         $card->setCustomer($customer2);
         $customer2->setCard($card);
         $card->setCustomerNickname($customer2->getNickname());
+
+        $card2 = new Card();
+        $card2->setCardNumber(1118255580);
+        $card2->setCustomer(null);
+        $card2->setCustomerNickname(null);
 
 
 
@@ -112,6 +118,11 @@ class AppFixtures extends Fixture
         $score2->setScoreValue(99);
         $score2->setDate($date2);
 
+        $score3 = new Score();
+        $score3->setCard($card2);
+        $score3->setScoreValue(66);
+        $score3->setDate($date1);
+
 
         $manager->persist($center);
         $manager->persist($center2);
@@ -119,10 +130,14 @@ class AppFixtures extends Fixture
         $manager->persist($center4);
         $manager->persist($customer);
         $manager->persist($customer2);
+        $manager->flush();
+
         $manager->persist($employee);
         $manager->persist($card);
+        $manager->persist($card2);
         $manager->persist($score);
         $manager->persist($score2);
+        $manager->persist($score3);
 
         $manager->flush();
 

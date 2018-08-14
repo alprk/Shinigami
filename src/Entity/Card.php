@@ -27,7 +27,7 @@ class Card
     private $card_number;
 
     /**
-     * @ORM\OneToOne(targetEntity="Customer")
+     * @ORM\OneToOne(targetEntity="Customer", inversedBy="card", cascade={"persist"})
      * @ORM\JoinColumn(name="customer_id",referencedColumnName="id")
      */
     private $customer;

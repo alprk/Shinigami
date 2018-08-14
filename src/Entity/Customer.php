@@ -49,7 +49,7 @@ class Customer extends User
     private $center;
 
     /**
-     * @ORM\OneToOne(targetEntity="Card")
+     * @ORM\OneToOne(targetEntity="Card", mappedBy="customer", cascade={"persist"} )
      * @ORM\JoinColumn(name="card_id",referencedColumnName="id")
      */
     private $card;

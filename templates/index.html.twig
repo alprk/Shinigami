@@ -15,12 +15,12 @@
     {% endfor %}
 
     {% if success is defined %}
-        <p style="color:gold;">{{ success }}</p>
+        <p style="color:gold;" class="success">{{ success }}</p>
     {% endif %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-        <h1>Bienvenue sur le site du laser game {{ app.user.username }}</h1>
+        <h1 class="welcomeUser">Bienvenue sur le site du laser game {{ app.user.username }}</h1>
 
         <hr>
 

@@ -42,18 +42,13 @@ class SecurityController extends Controller
     {
         $this->logger = $logger;
     }
+
     /**
-
      * Connexion d'un utilisateur
-
      * @Route("/login", name="security_login")
-
      * @param Request $request
-
      * @param AuthenticationUtils $authenticationUtils
-
      */
-
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
 
     {
