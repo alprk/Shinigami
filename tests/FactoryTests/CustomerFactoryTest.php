@@ -26,29 +26,59 @@ class CustomerFactoryTest extends TestCase
 
     public function testCustomerRequestwillreturnCustomer()
     {
-        $customer = $this->createConfiguredMock(Customer::class, [
-            'getUsername' => 'test'
-        ]);
+        $encoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $em = $this->createMock(EntityManagerInterface::class);
 
-        $customerrequest = $this->createConfiguredMock(CustomerRequest::class, [
-            'getUsername' => 'test'
-        ]);
+        $center = $this->createMock(Center::class);
 
-        $stub = $this->getMockBuilder(CustomerFactory::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->getMock();
+        $customerrequest = new CustomerRequest();
+        $customerrequest->setUsername('blava');
+        $customerrequest->setEmail('blava@email.fr');
+        $customerrequest->setAdress('blava address');
+        $customerrequest->setPhone('0666965861');
+        $customerrequest->setCenter($center);
+        $customerrequest->setBirthdate(new \DateTime());
+        $customerrequest->setNickname('blava');
 
-        $stub->method('createFromCustomerRequest')
-            ->willReturn($customer);
+        $customerfactory = new CustomerFactory($encoder,$em);
+
+        $customer = $customerfactory->createFromCustomerRequest($customerrequest);
+
+        $this->assertSame($customer->getUsername(),$customerrequest->getUsername());
+
+        $this->assertInstanceOf(Customer::class,$customer);
 
 
-        $this->assertSame($customer, $stub->createFromCustomerRequest($customerrequest));
-
-        $this->assertSame($customer->getUsername(), $customerrequest->getUsername());
     }
+
+    public function testpasswordisencoded()
+    {
+        $encoder = $this->createConfiguredMock(UserPasswordEncoderInterface::class, [
+            'encodePassword' => '&djhhte889402JJFUVFFZFZF4'
+        ]);
+        $em = $this->createMock(EntityManagerInterface::class);
+
+        $center = $this->createMock(Center::class);
+
+        $customerrequest = new CustomerRequest();
+        $customerrequest->setUsername('blava');
+        $customerrequest->setEmail('blava@email.fr');
+        $customerrequest->setAdress('blava address');
+        $customerrequest->setPhone('0666965861');
+        $customerrequest->setCenter($center);
+        $customerrequest->setBirthdate(new \DateTime());
+        $customerrequest->setNickname('blava');
+
+        $customerfactory = new CustomerFactory($encoder,$em);
+
+        $customer = $customerfactory->createFromCustomerRequest($customerrequest);
+
+
+        $this->assertSame('&djhhte889402JJFUVFFZFZF4', $customer->getPassword());
+    }
+
+
+
 
 
 

@@ -21,8 +21,8 @@ use App\Entity\Card;
 use App\Entity\Center;
 use App\Entity\Employee;
 
-use App\Form\AddCenter;
-use App\Form\DeleteCenter;
+use App\Form\AddCenterType;
+use App\Form\DeleteCenterType;
 
 use App\Form\AddCardType;
 
@@ -140,7 +140,7 @@ class AdminController extends Controller
     public function delete_center(Request $request, CenterManager $centerManager,EmployeeManager $employeeManager)
     {
 
-        $form = $this->createForm(DeleteCenter::class);
+        $form = $this->createForm(DeleteCenterType::class);
 
         $form->handleRequest($request);
 
@@ -203,7 +203,7 @@ class AdminController extends Controller
     {
         $center = new CenterRequest();
 
-        $form = $this->createForm(AddCenter::class, $center);
+        $form = $this->createForm(AddCenterType::class, $center);
 
         $form->handleRequest($request);
 
@@ -283,7 +283,7 @@ class AdminController extends Controller
             'etat' => 'Modifier ses informations'
         ];
 
-        $form = $this->createForm(AddCenter::class,$centerrequest,$options);
+        $form = $this->createForm(AddCenterType::class,$centerrequest,$options);
 
         $form->handleRequest($request);
 

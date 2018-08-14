@@ -29,28 +29,19 @@ class EmployeeFactoryTest extends TestCase
 
     public function testEmployeeRequestwillreturnEmployee()
     {
-        $employee = $this->createConfiguredMock(Employee::class, [
-            'getUsername' => 'test'
-        ]);
-
-        $employeerequest = $this->createConfiguredMock(EmployeeRequest::class, [
-            'getUsername' => 'test'
-        ]);
-
-        $stub = $this->getMockBuilder(EmployeeFactory::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->getMock();
-
-        $stub->method('createFromEmployeeRequest')
-            ->willReturn($employee);
+        $employeerequest = new EmployeeRequest();
+        $employeerequest->setUsername('blava');
 
 
-        $this->assertSame($employee, $stub->createFromEmployeeRequest($employeerequest));
+        $encoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $employeefactory = new EmployeeFactory($encoder);
+
+        $employee = $employeefactory->createFromEmployeeRequest($employeerequest);
+
 
         $this->assertSame($employee->getUsername(), $employeerequest->getUsername());
+
+        $this->assertInstanceOf(Employee::class,$employee);
     }
 
 

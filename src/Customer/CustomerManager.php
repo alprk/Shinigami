@@ -66,6 +66,8 @@ class CustomerManager
         $email = $customer->getEmail();
         $username = $customer->getUsername();
 
+
+
         $customerFound = $em->getRepository(Customer::class)->findOneBy(array(
             'username' => $username ));
 

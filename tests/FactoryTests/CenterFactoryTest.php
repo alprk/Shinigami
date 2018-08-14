@@ -26,31 +26,24 @@ class CenterFactoryTest extends TestCase
 
 {
 
-    public function testCustomerRequestwillreturnCustomer()
+    public function testCenterRequestwillreturnCenter()
     {
-        $center = $this->createConfiguredMock(Center::class, [
-            'getName' => 'test'
-        ]);
 
-        $centerrequest = $this->createConfiguredMock(CenterRequest::class, [
-            'getName' => 'test'
-        ]);
+        $centerrequest = new CenterRequest();
+        $centerrequest->setName('blava');
+        $centerrequest->setCity('blava');
+        $centerrequest->setCode(149);
 
-        $stub = $this->getMockBuilder(CenterFactory::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->getMock();
+        $centerfactory = new CenterFactory();
 
-        $stub->method('createfromCenterRequest')
-            ->willReturn($center);
+        $center = $centerfactory->createfromCenterRequest($centerrequest);
 
 
-        $this->assertSame($center, $stub->createfromCenterRequest($centerrequest));
+        $this->assertSame($center->getName(),$centerrequest->getName());
 
-        $this->assertSame($center->getName(), $centerrequest->getName());
+        $this->assertInstanceOf(Center::class,$center);
     }
+
 
 
 

@@ -24,30 +24,20 @@ class ScoreFactoryTest extends TestCase
 
     public function testScoreRequestwillreturnScore()
     {
-        $score = $this->createConfiguredMock(Score::class, [
-            'getScoreValue' => 99.0
-        ]);
+        $scorerequest = new ScoreRequest();
+        $scorerequest->setScoreValue(99.0);
 
-        $scorerequest = $this->createConfiguredMock(ScoreRequest::class, [
-            'getScoreValue' => 99.0
-        ]);
+        $scorefactory = new ScoreFactory();
 
         $card = $this->createMock(Card::class);
 
-        $stub = $this->getMockBuilder(ScoreFactory::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->getMock();
-
-        $stub->method('createFromScoreRequest')
-            ->willReturn($score);
+        $score = $scorefactory->createFromScoreRequest($scorerequest,$card,$scorerequest->getScoreValue());
 
 
-        $this->assertSame($score, $stub->createFromScoreRequest($scorerequest,$card,$scorerequest->getScoreValue()));
 
         $this->assertSame($score->getScoreValue(), $scorerequest->getScoreValue());
+
+        $this->assertInstanceOf(Score::class,$score);
     }
 
 

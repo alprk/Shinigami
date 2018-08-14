@@ -16,9 +16,9 @@ namespace App\Controller\Security;
 use App\Customer\CustomerManager;
 use App\Form\CustomerType;
 
-use App\Form\ForgotPassword;
+use App\Form\ForgotPasswordType;
 use App\Form\LoginType;
-use App\Form\ResetPassword;
+use App\Form\ResetPasswordType;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -115,7 +115,7 @@ class SecurityController extends Controller
      */
     public function forgotPassword(Request $request, CustomerManager $manager)
     {
-        $form = $this->createForm(ForgotPassword::class);
+        $form = $this->createForm(ForgotPasswordType::class);
 
         $form->handleRequest($request);
 
@@ -143,7 +143,7 @@ class SecurityController extends Controller
      */
     public function resetPassword(Request $request, CustomerManager $manager)
     {
-        $form = $this->createForm(ResetPassword::class);
+        $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
         $token = $request->get('user');
         if($token != null){
