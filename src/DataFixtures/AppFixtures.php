@@ -61,21 +61,17 @@ class AppFixtures extends Fixture
 
 
 
-        $customer = new Customer();
-        $customer->setUsername('Admin');
-        $customer->setPassword($this->encoder->encodePassword($customer, 'admin'));
-        $customer->setNickname('admin');
-        $customer->setBirthdate(new \DateTime());
-        $customer->setAdress('admin adress');
-        $customer->setPhone('0122222222');
-        $customer->setEmail('admin_email@email.com');
-        $customer->setRoles(['ROLE_ADMIN']);
-        $customer->setCenter($center);
+        $admin = new Employee();
+        $admin->setUsername('Admin');
+        $admin->setPassword($this->encoder->encodePassword($admin, 'admin'));
+        $admin->setEmail('admin_email@email.com');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setCenter($center);
 
 
         $customer2 = new Customer();
         $customer2->setUsername('Player');
-        $customer2->setPassword($this->encoder->encodePassword($customer, 'player'));
+        $customer2->setPassword($this->encoder->encodePassword($customer2, 'player'));
         $customer2->setNickname('player');
         $customer2->setBirthdate(new \DateTime());
         $customer2->setAdress('player address');
@@ -83,7 +79,7 @@ class AppFixtures extends Fixture
         $customer2->setEmail('player_email@email.com');
         $customer2->setRoles(['ROLE_USER']);
         $customer2->setCenter($center);
-        $customer2->setToken('52ef8eac14c42c2293d7c65c990b50a652ef8eac14c42c2293d7c65c990b50a6');
+
 
         $employee = new Employee();
         $employee->setUsername('Employee');
@@ -128,10 +124,8 @@ class AppFixtures extends Fixture
         $manager->persist($center2);
         $manager->persist($center3);
         $manager->persist($center4);
-        $manager->persist($customer);
+        $manager->persist($admin);
         $manager->persist($customer2);
-        $manager->flush();
-
         $manager->persist($employee);
         $manager->persist($card);
         $manager->persist($card2);
