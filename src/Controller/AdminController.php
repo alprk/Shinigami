@@ -123,7 +123,7 @@ class AdminController extends Controller
      */
     public function listemployee(EntityManagerInterface $em)
     {
-        $employees = $em->getRepository(Employee::class)->findAll();
+        $employees = $em->getRepository(Employee::class)->findAllEmployees();
 
         return $this->render('list_employee.html.twig',[
             'employees' => $employees
