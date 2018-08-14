@@ -177,13 +177,6 @@ class AdminController extends Controller
 
     }
 
-
-
-
-
-
-
-
     /**
      * @Route("/admin_center_management", name="admin_center_management", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
@@ -195,7 +188,6 @@ class AdminController extends Controller
     }
 
     /**
-
      * @Route("/admin_add_center", name="admin_add_center", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      */

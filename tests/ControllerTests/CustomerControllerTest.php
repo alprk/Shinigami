@@ -8,10 +8,25 @@
 
 namespace App\Tests\ControllerTests;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Panther\PantherTestCase;
 
 class CustomerControllerTest extends PantherTestCase
 {
+    public static function setUpBeforeClass()
+    {
+        $client = self::createClient();
+        $application = new Application($client->getKernel());
+        $application->setAutoExit(false);
+        $application->run(new StringInput('doctrine:database:drop --env=test --force'));
+        $application->run(new StringInput('doctrine:database:create --env=test'));
+        //$application->run(new StringInput('doctrine:schema:update --env=test --force'));
+        $application->run(new StringInput('doctrine:migrations:migrate'));
+        $application->run(new StringInput('doctrine:fixtures:load'));
+
+    }
+
     public function testRegisterAction()
     {
         $client = static::createPantherClient();
@@ -106,7 +121,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $form = $crawler->selectButton('Rattacher la carte')->form();
 
-        $form['attach_card[card_number]'] = '1114803112';
+        $form['attach_card[card_number]'] = '1118255580';
 
         $crawler = $client->submit($form);
 
@@ -124,7 +139,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/customer_show_scores');
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenShowScores.jpg');
 
         $tableText = $crawler->filter('table td.scoreVal')->eq(0)->text();
 
