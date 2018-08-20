@@ -6,12 +6,13 @@ Mes scores
 
 {% block content %}
     <h1>Mes scores</h1>
-
+    {% if scores != null %}
     <table border="1px;">
         <tr>
             <th>Date</th>
             <th>Score</th>
         </tr>
+
 
         {%  for score in scores %}
             <tr>
@@ -19,4 +20,9 @@ Mes scores
                 <td class="scoreVal">{{ score.scorevalue }}</td>
             </tr>
         {%  endfor %}
+
+    {% else %}
+        <p>Désolé, vos scores n'ont pas encore été renseignés<p>
+    {% endif %}
+
 {%  endblock %}

@@ -16,6 +16,7 @@
         <th>Adresse</th>
         <th>Numéro de téléphone</th>
         <th>Date de naissance</th>
+        <th>Numéro de carte</th>
     </tr>
 
     {% for player in players %}
@@ -26,7 +27,11 @@
             <td>{{ player.adress }}</td>
             <td>{{ player.phone }}</td>
             <td>{{ player.birthdate|date('d-m-Y') }}</td>
-
+            {% if  player.card != null %}
+            <td>{{ player.card.cardnumber }}</td>
+            {% else %}
+                <td>----</td>
+            {% endif %}
         </tr>
 
     {% endfor %}

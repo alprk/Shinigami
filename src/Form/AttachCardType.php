@@ -31,10 +31,10 @@ class AttachCardType extends AbstractType
             ->add('card_number', TextType::class, [
 
                 'required'  => true,
-                'label'     => 'Numéro de carte :',
+                'label'     => 'Numéro de carte',
                 'attr'      => [
 
-                    'placeholder' => 'Card Number :'
+                    'placeholder' => 'Numéro de carte :'
 
                 ]
 
