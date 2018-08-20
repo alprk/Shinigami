@@ -44,10 +44,10 @@ class AddCenterType extends AbstractType
             ->add('name', TextType::class, [
 
                 'required'  => true,
-                'label'     => 'Name',
+                'label'     => 'Nom',
                 'attr'      => [
 
-                    'placeholder' => 'Name :'
+                    'placeholder' => 'Nom :'
 
                 ]
             ])

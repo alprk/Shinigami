@@ -20,11 +20,12 @@
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-        <h1 class="welcomeUser">Bienvenue sur le site du laser game {{ app.user.username }}</h1>
+        <h1 class="welcomeUser">Bienvenue sur le site du Shinigami lasergame {{ app.user.username }}</h1>
 
-        <hr>
 
     {% else %}
+        <h1 class="welcomeUser">Bienvenue sur le site du Shinigami lasergame</h1>
+
         <a href="{{path('security_login')}}">
             Veuillez vous connecter
         </a>

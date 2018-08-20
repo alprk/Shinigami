@@ -36,10 +36,10 @@ class EmployeeType extends AbstractType
             ->add('username', TextType::class, [
 
                 'required'  => true,
-                'label'     => 'Name',
+                'label'     => 'Nom',
                 'attr'      => [
 
-                    'placeholder' => 'Name :'
+                    'placeholder' => 'Nom :'
 
                 ]
 
@@ -47,14 +47,14 @@ class EmployeeType extends AbstractType
 
         if ($this->etat) {
             $builder->add('password',PasswordType::class,[
-                'label'=>"Password",
+                'label'=>"Mot de passe",
                 'required'=>false,
             ]);
         }
         else
         {
             $builder->add('password',PasswordType::class,[
-                'label'=>"Password",
+                'label'=>"Mot de passe",
                 'required'=>true,
             ]);
         }

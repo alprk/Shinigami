@@ -51,10 +51,10 @@ class CustomerType extends AbstractType
             ->add('username', TextType::class, [
 
                 'required'  => true,
-                'label'     => 'Name',
+                'label'     => 'Nom',
                 'attr'      => [
 
-                    'placeholder' => 'Name :'
+                    'placeholder' => 'Nom :'
 
                 ]
 
@@ -64,11 +64,11 @@ class CustomerType extends AbstractType
 
                 'required'  => true,
 
-                'label'     => 'Nickname',
+                'label'     => 'Pseudo',
 
                 'attr'      => [
 
-                    'placeholder' => 'Nickname'
+                    'placeholder' => 'Pseudo :'
 
                 ]
 
@@ -82,7 +82,7 @@ class CustomerType extends AbstractType
 
                 'attr'      => [
 
-                    'placeholder' => 'Adresse'
+                    'placeholder' => 'Adresse :'
 
                 ]
             ])
@@ -103,11 +103,11 @@ class CustomerType extends AbstractType
 
                 'required'  => true,
 
-                'label'     => 'Telephone :',
+                'label'     => 'Téléphone',
 
                 'attr'      => [
 
-                    'placeholder' => 'telephone'
+                    'placeholder' => 'Téléphone :'
 
                 ]
 
@@ -150,7 +150,7 @@ class CustomerType extends AbstractType
 
                 $builder->
                     add('password',PasswordType::class,[
-                        'label'=>"Password",
+                        'label'=>"Mot de passe",
                         'required'=>false,
                     ])
                     ->add('submit', SubmitType::class, [
@@ -160,7 +160,7 @@ class CustomerType extends AbstractType
             {
                 $builder->
                 add('password',PasswordType::class,[
-                    'label'=>"Password",
+                    'label'=>"Mot de passe",
                     'required'=>true,
                 ])
 
