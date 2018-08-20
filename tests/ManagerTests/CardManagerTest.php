@@ -49,26 +49,26 @@ class CardManagerTest extends TestCase
         ]);
     }
 
-    public function testpersistandflushiscalledoncreate()
+    public function testPersistAndFlushIsCalledOnCreate()
     {
-        $cardmanager = new CardManager($this->manager,$this->cardFactory,$this->em);
+        $cardManager = new CardManager($this->manager,$this->cardFactory,$this->em);
 
-        $cardrequest = new CardRequest();
+        $cardRequest = new CardRequest();
 
         $this->manager->expects($this->once())->method('persist');
         $this->manager->expects($this->once())->method('flush');
 
-        $card = $cardmanager->createCard($cardrequest,111);
+        $card = $cardManager->createCard($cardRequest,111);
 
     }
 
-    public function testCardnumberiscorrect()
+    public function testCardNumberIsCorrect()
     {
-        $cardmanager = new CardManager($this->manager,$this->cardFactory,$this->em);
+        $cardManager = new CardManager($this->manager,$this->cardFactory,$this->em);
 
-        $cardrequest = new CardRequest();
+        $cardRequest = new CardRequest();
 
-        $card = $cardmanager->createCard($cardrequest,111);
+        $card = $cardManager->createCard($cardRequest,111);
 
         $this->assertSame(substr($card->getCardNumber(), 0, 3),'111');
 
