@@ -27,7 +27,7 @@ class CardManager
 
     }
 
-    public function createcard(CardRequest $cardRequest, $centerCode): Card
+    public function createCard(CardRequest $cardRequest, $centerCode): Card
     {
         # On appel notre Factory pour créer notre Objet Card
         $card = $this->cardFactory->createFromCardRequest($cardRequest);
@@ -43,7 +43,7 @@ class CardManager
         return $card;
     }
 
-    public function deletecard()
+    public function deleteCard()
     {
 
     }

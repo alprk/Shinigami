@@ -91,7 +91,7 @@ class EmployeeController extends Controller
 
         $cardRequest->setCustomerNickname(null);
 
-        $card = $cardManager->createcard($cardRequest, $centerCode);
+        $card = $cardManager->createCard($cardRequest, $centerCode);
         $this->addFlash('notice', 'Carte créée !');
 
         $this->log('Création d\'une carte par '. $employee->getUsername());
@@ -136,9 +136,9 @@ class EmployeeController extends Controller
 
            if ($card)
            {
-               $scorerequest = new ScoreRequest();
+               $scoreRequest = new ScoreRequest();
 
-               $scoreManager->createScore($scorerequest,$card,$value);
+               $scoreManager->createScore($scoreRequest,$card,$value);
 
                $this->addFlash('notice', 'Score correctement rajouté !');
 
@@ -210,9 +210,9 @@ class EmployeeController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $playerrequest = $form->getData();
+            $playerRequest = $form->getData();
 
-            $number = $playerrequest['number'];
+            $number = $playerRequest['number'];
 
             $card = $em->getRepository(Card::class)->findOneBy(
                 array('card_number' => $number)

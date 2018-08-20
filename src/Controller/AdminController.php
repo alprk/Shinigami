@@ -157,10 +157,10 @@ class AdminController extends Controller
 
             foreach ($employees as $employee)
             {
-                $employeeManager->deleteemployee($employee);
+                $employeeManager->deleteEmployee($employee);
             }
             //
-            $centerManager->deletecenter($center);
+            $centerManager->deleteCenter($center);
 
             $this->addFlash('notice', 'Votre centre à correctement été supprimé !');
 
@@ -191,7 +191,7 @@ class AdminController extends Controller
      * @Route("/admin_add_center", name="admin_add_center", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function addcenter(Request $request, CenterManager $centerManager)
+    public function addCenter(Request $request, CenterManager $centerManager)
     {
         $center = new CenterRequest();
 
@@ -201,7 +201,7 @@ class AdminController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $center = $centerManager->createcenter($center);
+            $center = $centerManager->createCenter($center);
             $this->addFlash('notice', 'Votre centre à correctement été ajouté !');
             $this->log('Ajout du centre '. $center->getName() . ' par '.$this->getUser()->getUsername());
 
@@ -236,7 +236,7 @@ class AdminController extends Controller
             $centerCode = $center->getCode();
 
             for ($i = 1; $i <= $nbCards; $i++) {
-                $card = $cardManager->createcard($cardRequest, $centerCode);
+                $card = $cardManager->createCard($cardRequest, $centerCode);
             }
             $this->addFlash('notice', 'Cartes créées !');
             $this->log('Ajout de '. $nbCards .' cartes pour le centre '.$center->getName(). ' par '.$this->getUser()->getUsername());
@@ -267,15 +267,15 @@ class AdminController extends Controller
      * @Route("/admin_modify_center", name="admin_modify_center", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function modifycenter(Request $request, CenterManager $centerManager)
+    public function modifyCenter(Request $request, CenterManager $centerManager)
     {
-        $centerrequest = new CenterRequest();
+        $centerRequest = new CenterRequest();
 
         $options = [
             'etat' => 'Modifier ses informations'
         ];
 
-        $form = $this->createForm(AddCenterType::class,$centerrequest,$options);
+        $form = $this->createForm(AddCenterType::class,$centerRequest,$options);
 
         $form->handleRequest($request);
 
@@ -284,7 +284,7 @@ class AdminController extends Controller
             $center = $this->getDoctrine()->getRepository(Center::class)
                 ->find($form->getData()->getCenter());
 
-            $centerManager->update($centerrequest,$center);
+            $centerManager->update($centerRequest,$center);
 
             $this->addFlash('notice', 'Votre centre à correctement été modifié !');
             $this->log('Modification du centre '. $center->getName().  ' par '.$this->getUser()->getUsername());
