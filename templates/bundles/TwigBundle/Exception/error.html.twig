@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    Erreur {{ status_code }}
+{% endblock %}
+
+{% block content %}
+    <div class="error">
+        <h1>{{ status_code }}</h1>
+        <p>La page demandée n'a pas pu être chargée, Vérifiez votre URL </p>
+        
+        <a href="{{ path('index') }}" class="btn-secondary">Retour à l'accueil</a>
+    </div>
+
+{% endblock %}
