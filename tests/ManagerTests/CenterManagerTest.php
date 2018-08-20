@@ -45,7 +45,7 @@ class CenterManagerTest extends TestCase
         $this->manager->expects($this->once())->method('persist');
         $this->manager->expects($this->once())->method('flush');
 
-        $center = $centermanager->createcenter($centerrequest);
+        $center = $centermanager->createCenter($centerrequest);
 
     }
 

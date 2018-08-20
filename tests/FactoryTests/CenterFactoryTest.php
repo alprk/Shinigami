@@ -36,7 +36,7 @@ class CenterFactoryTest extends TestCase
 
         $centerfactory = new CenterFactory();
 
-        $center = $centerfactory->createfromCenterRequest($centerrequest);
+        $center = $centerfactory->createFromCenterRequest($centerrequest);
 
 
         $this->assertSame($center->getName(),$centerrequest->getName());

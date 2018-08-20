@@ -58,7 +58,7 @@ class CardManagerTest extends TestCase
         $this->manager->expects($this->once())->method('persist');
         $this->manager->expects($this->once())->method('flush');
 
-        $card = $cardmanager->createcard($cardrequest,111);
+        $card = $cardmanager->createCard($cardrequest,111);
 
     }
 
@@ -68,7 +68,7 @@ class CardManagerTest extends TestCase
 
         $cardrequest = new CardRequest();
 
-        $card = $cardmanager->createcard($cardrequest,111);
+        $card = $cardmanager->createCard($cardrequest,111);
 
         $this->assertSame(substr($card->getCardNumber(), 0, 3),'111');
 

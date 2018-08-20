@@ -45,7 +45,7 @@ class CustomerFactory
         return $customer;
     }
 
-    public function updatefromcustomerrequest(CustomerRequest $customerRequest,Customer $customer): Customer
+    public function updateFromCustomerRequest(CustomerRequest $customerRequest, Customer $customer): Customer
     {
         $customer->setUsername($customerRequest->getUsername());
         $customer->setCenter($customerRequest->getCenter());

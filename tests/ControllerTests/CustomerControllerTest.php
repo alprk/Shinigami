@@ -33,7 +33,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/register_customer');
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenRegisterCustomer.jpg');
 
         $form = $crawler->selectButton('S\'inscrire')->form();
 
@@ -50,7 +50,7 @@ class CustomerControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenCustomerRegistered.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -66,7 +66,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/login');
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenLogin.jpg');
 
         $form = $crawler->selectButton('Connexion')->form();
 
@@ -76,13 +76,13 @@ class CustomerControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenLoggedCustomer.jpg');
 
         $link = $crawler->selectLink('Éditer mes informations')->link();
 
         $crawler = $client->click($link);
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenCustomerEditInfos.jpg');
 
         $form = $crawler->selectButton('Modifier mes Informations Personnelles')->form();
 
@@ -101,7 +101,7 @@ class CustomerControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenCustomerInfosEdited.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -117,7 +117,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/customer_attach_card');
 
-        $client->takeScreenshot('tests/screen/screenTest.jpg');
+        $client->takeScreenshot('tests/screen/screenAttachCard.jpg');
 
         $form = $crawler->selectButton('Rattacher la carte')->form();
 
@@ -125,7 +125,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screenTest.jpg');
+        $client->takeScreenshot('tests/screen/screenCardAttached.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -152,7 +152,7 @@ class CustomerControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/customer_espace_client');
 
-        $client->takeScreenshot('tests/screen/screen.jpg');
+        $client->takeScreenshot('tests/screen/screenEspaceClient.jpg');
 
         $aText = $crawler->filter('a.customer_attach_card')->text();
 

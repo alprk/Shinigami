@@ -34,7 +34,7 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/login');
 
-        $client->takeScreenshot('tests/screen/screen2.jpg');
+        $client->takeScreenshot('tests/screen/screenLogin.jpg');
 
         $form = $crawler->selectButton('Connexion')->form();
 
@@ -44,7 +44,7 @@ class AdminControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenLoggedAdmin.jpg');
 
         $crawler = $client->request('GET', '/admin_add_employee');
 
@@ -58,7 +58,7 @@ class AdminControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenEmployeeCreated.jpg');
 
         $divSuccessText = $crawler->filter('div.alert-success')->text();
 
@@ -72,11 +72,11 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/admin_list_employee');
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenListEmployees.jpg');
 
         $tableText = $crawler->filter('table td.username')->eq(0)->text();
 
-        dump($tableText);
+        //dump($tableText);
 
         $this->assertContains('Employee', $tableText);
 
@@ -88,7 +88,7 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/admin_center_delete');
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenCenterDelete.jpg');
 
         $form = $crawler->selectButton('Supprimer le centre')->form();
 
@@ -109,7 +109,7 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/admin_add_center');
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenAddCenter.jpg');
 
         $form = $crawler->selectButton('Créer le centre')->form();
 
@@ -131,7 +131,7 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/admin_add_card');
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenAddCard.jpg');
 
         $form = $crawler->selectButton('Créer les cartes')->form();
 
@@ -151,11 +151,11 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/admin_list_card');
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenListCards.jpg');
 
         $tableText = $crawler->filter('table td.cardNumber')->eq(0)->text();
 
-        dump($tableText);
+        //dump($tableText);
 
         $this->assertContains('1114803112', $tableText);
 
@@ -167,7 +167,7 @@ class AdminControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/admin_modify_center');
 
-        $client->takeScreenshot('tests/screen/screen3.jpg');
+        $client->takeScreenshot('tests/screen/screenModifyCenter.jpg');
 
         $form = $crawler->selectButton('Modifier le centre')->form();
 
@@ -193,7 +193,7 @@ class AdminControllerTest extends PantherTestCase
 
         $tableText = $crawler->filter('table td.centerName')->eq(0)->text();
 
-        dump($tableText);
+        //dump($tableText);
 
         $this->assertContains('LaserParadise', $tableText);
 

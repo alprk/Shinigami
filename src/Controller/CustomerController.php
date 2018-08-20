@@ -79,12 +79,12 @@ class CustomerController extends Controller
 
         if ($ar instanceof Employee)
         {
-            $employeerequest = EmployeeRequest::createFromEmployee($ar);
+            $employeeRequest = EmployeeRequest::createFromEmployee($ar);
             $options = [
                 'etat' => 'Modifier ses informations'
             ];
 
-            $form = $this->createForm(EmployeeType::class, $employeerequest, $options)
+            $form = $this->createForm(EmployeeType::class, $employeeRequest, $options)
                 ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -105,7 +105,7 @@ class CustomerController extends Controller
         }
         else
             {
-            $customerrequest = CustomerRequest::createFromCustomer($ar);
+            $customerRequest = CustomerRequest::createFromCustomer($ar);
 
 
             $options = [
@@ -113,7 +113,7 @@ class CustomerController extends Controller
             ];
 
 
-            $form = $this->createForm(CustomerType::class, $customerrequest, $options)
+            $form = $this->createForm(CustomerType::class, $customerRequest, $options)
                 ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -140,7 +140,7 @@ class CustomerController extends Controller
      * @Route("/customer_attach_card", name="customer_attach_card", methods={"GET", "POST"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function attach_card(Request $request, CustomerManager $manager)
+    public function attachCard(Request $request, CustomerManager $manager)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
@@ -164,7 +164,7 @@ class CustomerController extends Controller
                 $result = $manager->attachCard($user, $card_number);
                 if ($result !== false) {
 
-                    $this->log('Rattachage de la carte numéro '. $card_number. "à ".$user->getUsername());
+                    $this->log('Rattachement de la carte numéro '. $card_number. "à ".$user->getUsername());
 
                     return $this->render('espace_client.html.twig', [
                         'success' => 'Carte correctement rattachée',
@@ -208,7 +208,7 @@ class CustomerController extends Controller
      * @Route("/customer_espace_client", name="customer_espace_client", methods={"GET", "POST"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function espaceclient(ScoreManager $manager)
+    public function espaceClient(ScoreManager $manager)
     {
 
 

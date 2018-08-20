@@ -33,7 +33,7 @@ class SecurityControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/login');
 
-        $client->takeScreenshot('tests/screen/screen2.jpg');
+        $client->takeScreenshot('tests/screen/screenLogin.jpg');
 
         $form = $crawler->selectButton('Connexion')->form();
 
@@ -43,11 +43,11 @@ class SecurityControllerTest extends PantherTestCase
         sleep(2);
         $crawler = $client->submit($form);
 
-        $client->takeScreenshot('tests/screen/screenLoggedUser.jpg');
+        $client->takeScreenshot('tests/screen/screenLoggedAdmin.jpg');
 
         $h1WelcomeText = $crawler->filter('h1.welcomeUser')->text();
 
-        $this->assertContains('BIENVENUE SUR LE SITE DU LASER GAME ADMIN', $h1WelcomeText);
+        $this->assertContains('BIENVENUE SUR LE SITE DU SHINIGAMI LASERGAME ADMIN', $h1WelcomeText);
 
     }
 
@@ -57,7 +57,7 @@ class SecurityControllerTest extends PantherTestCase
 
         $crawler = $client->request('GET', '/deconnexion');
 
-        $client->takeScreenshot('tests/screen/screenLoggedOutUser.jpg');
+        $client->takeScreenshot('tests/screen/screenLoggedOutAdmin.jpg');
 
         $h1LoginText = $crawler->filter('h1.login')->text();
 
@@ -112,10 +112,9 @@ class SecurityControllerTest extends PantherTestCase
 
         $messageBody = $message->getBody();
 
-        $messageBodyCut = substr($messageBody, 131, 32);
-        dump($messageBodyCut);
+        $token = substr($messageBody, 131, 32);
 
-        $crawler = $client->request('GET', '/reset_password?user='.$messageBodyCut);
+        $crawler = $client->request('GET', '/reset_password?user='.$token);
 
         $form = $crawler->selectButton('Valider')->form();
 

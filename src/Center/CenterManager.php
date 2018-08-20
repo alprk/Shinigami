@@ -15,19 +15,19 @@ use Doctrine\Common\Persistence\ObjectManager;
 class CenterManager
 {
     private $manager;
-    private $centerfactory;
+    private $centerFactory;
 
     public function __construct(ObjectManager $manager, CenterFactory $centerFactory)
     {
         $this->manager = $manager;
-        $this->centerfactory = $centerFactory;
+        $this->centerFactory = $centerFactory;
 
     }
 
 
-    public function createcenter(CenterRequest $centerRequest): Center
+    public function createCenter(CenterRequest $centerRequest): Center
     {
-        $center = $this->centerfactory->createfromCenterRequest($centerRequest);
+        $center = $this->centerFactory->createFromCenterRequest($centerRequest);
 
         $this->manager->persist($center);
         $this->manager->flush();
@@ -36,7 +36,7 @@ class CenterManager
 
     }
 
-    public function deletecenter(Center $center)
+    public function deleteCenter(Center $center)
     {
         $this->manager->remove($center);
         $this->manager->flush();
@@ -45,7 +45,7 @@ class CenterManager
 
     public function update(CenterRequest $centerRequest, Center $center)
     {
-        $center = $this->centerfactory->updatefromcentererequest($centerRequest,$center);
+        $center = $this->centerFactory->updateFromCenterRequest($centerRequest,$center);
         $this->manager->persist($center);
         $this->manager->flush();
     }

@@ -38,7 +38,7 @@ class EmployeeFactory
 
     }
 
-    public function updatefromemployeerequest(EmployeeRequest $employeeRequest, Employee $employee)
+    public function updateFromEmployeeRequest(EmployeeRequest $employeeRequest, Employee $employee)
     {
         $employee->setUsername($employeeRequest->getUsername());
         $employee->setEmail($employeeRequest->getEmail());

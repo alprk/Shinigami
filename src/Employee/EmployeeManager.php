@@ -38,7 +38,7 @@ class EmployeeManager
         return $employee;
     }
 
-    public function deleteemployee(Employee $employee)
+    public function deleteEmployee(Employee $employee)
     {
         $this->manager->remove($employee);
         $this->manager->flush();
@@ -47,7 +47,7 @@ class EmployeeManager
 
     public function update(EmployeeRequest $employeeRequest,Employee $employee)
     {
-        $employee = $this->employeeFactory->updatefromemployeerequest($employeeRequest,$employee);
+        $employee = $this->employeeFactory->updateFromEmployeeRequest($employeeRequest,$employee);
         $this->manager->persist($employee);
         $this->manager->flush();
 

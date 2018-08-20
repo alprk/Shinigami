@@ -12,7 +12,7 @@ use App\Entity\Center;
 
 class CenterFactory
 {
-    public function createfromCenterRequest(CenterRequest $centerRequest)
+    public function createFromCenterRequest(CenterRequest $centerRequest)
     {
         $center = new Center();
 
@@ -31,7 +31,7 @@ class CenterFactory
 
     }
 
-    public function updatefromcentererequest(CenterRequest $centerRequest, Center $center)
+    public function updateFromCenterRequest(CenterRequest $centerRequest, Center $center)
     {
         $center->setName($centerRequest->getName());
         $center->setCity($centerRequest->getCity());
