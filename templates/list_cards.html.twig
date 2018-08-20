@@ -10,10 +10,16 @@
 <table>
     <tr>
         <th>Numéro de carte</th>
+        <th>Propriétaire de la carte</th>
     </tr>
     {% for card in cards %}
         <tr>
             <td class="cardNumber">{{ card.cardNumber }}</td>
+            {%  if card.customer != null %}
+                <td>{{ card.customer.username }}</td>
+            {%  else %}
+                <td>----</td>
+            {%  endif %}
         </tr>
     {% endfor %}
 </table>

@@ -85,13 +85,9 @@ class SecurityController extends Controller
     }
 
     /**
-
- * Déconnexion d'un utilisateur
-
- * @Route("/deconnexion", name="security_logout")
-
- */
-
+     * Déconnexion d'un utilisateur
+     * @Route("/deconnexion", name="security_logout")
+     */
     public function logout()
 
     {
